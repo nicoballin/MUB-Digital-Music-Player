@@ -1,1 +1,3 @@
-notas.txt, *.o, *.out
+notas.txt
+*.o
+*.out
