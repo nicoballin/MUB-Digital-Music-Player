@@ -1,4 +1,4 @@
-#ifndef ALGORTIMO
+#ifndef ALGORITMO
 #define ALGORITMO
 
 #include <stdio.h>
