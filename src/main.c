@@ -6,6 +6,9 @@
 
 int main()
 {
+    int cantidad_de_canciones = Pedir_cantidad_de_Canciones();
+    cancion Canciones[cantidad_de_canciones];
+    Crear_Canciones(Canciones,cantidad_de_canciones);
     
     while(RUNNING)
     {
@@ -15,12 +18,11 @@ int main()
 
         switch (opcion_menu)
         {
-        case 1:
-            printf("\tEstas en la opcion 1 \n");
-            printf("\tEstas en la opcion 1 \n");
-            printf("\tEstas en la opcion 1 \n");
-            printf("\tEstas en la opcion 1 \n");
+        case 1: 
+                //Mostrar lista de canciones
+            Prinf_Lista_Canciones(Canciones,cantidad_de_canciones);
             break;
+
         
         case 2:
             printf("\tEstas en la opcion 2 \n");
