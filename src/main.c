@@ -7,7 +7,7 @@
 int main()
 {
     int cantidad_de_canciones = Pedir_cantidad_de_Canciones();
-    cancion Canciones[cantidad_de_canciones];
+    Cancion Canciones[cantidad_de_canciones];
     Crear_Canciones(Canciones,cantidad_de_canciones);
     
     while(RUNNING)

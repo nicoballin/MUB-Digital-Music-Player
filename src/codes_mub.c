@@ -39,7 +39,7 @@ int Escoger_Opcion_Menu()
     return opcion;
 }
 
-void Crear_Canciones(cancion arr[],int cantidad_de_canciones)
+void Crear_Canciones(Cancion arr[],int cantidad_de_canciones)
 {
     for(int i = 0; i<cantidad_de_canciones;i++)
     {
@@ -96,7 +96,7 @@ int Generar_Anho_Cancion() //Esta funcion se podria mejorar, que por tipo de gen
     return anho;
 }
 
-void Prinf_Lista_Canciones(cancion arr[],int cantidad_de_canciones)
+void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones)
 {
     printf("\n\t%-7s | %-23s | %-15s | %-22s | %-10s\n", "ID", "Titulo", "Artista", "Duracion", "Anho");
     printf("\t--------------------------------------------------------------------------------\n");
@@ -113,7 +113,7 @@ void Prinf_Lista_Canciones(cancion arr[],int cantidad_de_canciones)
     sleep(5);
 }
 
-void Liberar_Memoria_Canciones(cancion arr[], int cantidad_de_cancioens)
+void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_cancioens)
 {
     for(int i = 0; i < cantidad_de_cancioens; i++)
     {
