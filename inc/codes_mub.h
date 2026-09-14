@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -26,6 +27,8 @@ int Pedir_cantidad_de_Canciones();
 void Crear_Canciones(cancion arr[],int cantidad_de_canciones);
 int Generar_Duracion_Seg();
 int Generar_Anho_Cancion();
+char* Generar_Titulo();
 void Prinf_Lista_Canciones(cancion arr[],int cantidad_de_canciones);
+void Liberar_Memoria_Titulos(cancion arr[], int cantidad_de_canciones);
 
 #endif

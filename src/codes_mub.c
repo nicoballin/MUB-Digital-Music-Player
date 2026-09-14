@@ -8,7 +8,7 @@ void Print_Menu_Inicial()
     printf("\n");
     printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
     printf("\t\t MUB - Digital Player Music\n");
-    printf("\t[1] Opcion uno\n");
+    printf("\t[1] Lista de Canciones\n");
     printf("\t[2] Opcion dos\n");
     printf("\t[3] Opcion tres\n");
     printf("\t[4] Opcion tres\n");
@@ -46,7 +46,23 @@ void Crear_Canciones(cancion arr[],int cantidad_de_canciones)
         arr[i].id = 1+i;
         arr[i].duracion_seg = Generar_Duracion_Seg();
         arr[i].año = Generar_Anho_Cancion();
+        arr[i].nombre = Generar_Titulo();
     }
+}
+
+char* Generar_Titulo()
+{
+    const char* adjetivo[] = {"MODO", "corrido", "casa del"};
+    const char* sustantivo[] = {"LOCO", "pro", "tierno"};
+
+    int Rand_Adjetivo = rand() % 3; //elige un adjetivo y sustantivo random
+    int Rand_Sustantivo = rand() % 3;
+    char* Titulo = (char*)malloc(50 * sizeof(char)); //pedimos 50 espacios para las letras
+    if(Titulo != NULL)
+    {
+        sprintf(Titulo, "%s %s", adjetivo[Rand_Adjetivo], sustantivo[Rand_Sustantivo]);
+    }
+    return Titulo;
 }
 
 int Generar_Duracion_Seg()
@@ -65,11 +81,24 @@ int Generar_Anho_Cancion() //Esta funcion se podria mejorar, que por tipo de gen
 
 void Prinf_Lista_Canciones(cancion arr[],int cantidad_de_canciones)
 {
-    printf("\tid | Duracion | anho");
+    printf("\n\t%-7s | %-23s | %-20s | %-10s\n", "ID", "Titulo", "Duracion", "Anho");
+    printf("\t--------------------------------------------------------------------------------\n");
     for(int i = 0 ; i < cantidad_de_canciones; i++)
     {
-        printf("\tid: %d| Duracion: %dm%ds (%ds totales)| Fecha Publicacion:%d\n"
-        ,arr[i].id, arr[i].duracion_seg/60, arr[i].duracion_seg%60, arr[i].duracion_seg, arr[i].año);
+        printf("\tID: %-4d| %-23s |%d m %ds (%4d totales)| %d\n",
+        arr[i].id,
+        arr[i].nombre, 
+        arr[i].duracion_seg/60, 
+        arr[i].duracion_seg%60, arr[i].duracion_seg, 
+        arr[i].año);
     }
-    sleep(5);
+    sleep(10);
+}
+
+void Liberar_Memoria_Titulos(cancion arr[], int cantidad_de_cancioens)
+{
+    for(int i = 0; i < cantidad_de_cancioens; i++)
+    {
+        free(arr[i].nombre);
+    }
 }
