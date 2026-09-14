@@ -52,6 +52,6 @@ int main()
     }
 
 
-    Liberar_Memoria_Titulos(Canciones, cantidad_de_canciones);
+    Liberar_Memoria_Canciones(Canciones, cantidad_de_canciones);
     return 0;
 }

@@ -28,7 +28,8 @@ void Crear_Canciones(cancion arr[],int cantidad_de_canciones);
 int Generar_Duracion_Seg();
 int Generar_Anho_Cancion();
 char* Generar_Titulo();
+char* Generar_Artista();
 void Prinf_Lista_Canciones(cancion arr[],int cantidad_de_canciones);
-void Liberar_Memoria_Titulos(cancion arr[], int cantidad_de_canciones);
+void Liberar_Memoria_Canciones(cancion arr[], int cantidad_de_canciones);
 
 #endif
