@@ -36,7 +36,7 @@ int main()
             //Imprimir menyu de ordenamiento
             Print_Menu_Criterios_Ordenamiento();
             opcion_criterio = Escoger_Opcion_Menu() - 1;
-            if(opcion_criterio == SALIR_CRITERIO) break;
+            if(opcion_criterio < 0) break;
 
             //switch con cad tipo de orden
             switch (opcion_criterio)
@@ -54,7 +54,7 @@ int main()
 
             Print_Opciones_Orden();
             opcion_orden = Escoger_Opcion_Menu() - 1;
-            if(opcion_orden == SALIR_ORDEN) break;
+            if(opcion_orden < 0) break;
             Bubble_Sort(Canciones, cantidad_de_canciones, opcion_criterio, opcion_orden);
             Print_Lista_Canciones(Canciones, cantidad_de_canciones);
 

@@ -17,16 +17,14 @@ typedef enum _tipo_criterio
     GENERO,
     DURACION,
     ANHO,
-    REPRODUCCIONES,
-    SALIR_CRITERIO
+    REPRODUCCIONES
 }Tipo_Criterio;
 
 // Como ordenar el Catalogo
 typedef enum _orden
 {
     ASCENDENTE,
-    DESCENDENTE,
-    SALIR_ORDEN
+    DESCENDENTE
 }Orden;
 
 //Estructura que define a una Cancion
