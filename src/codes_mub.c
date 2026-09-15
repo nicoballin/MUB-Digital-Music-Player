@@ -86,11 +86,11 @@ void Crear_Canciones(Cancion arr[],int cantidad_de_canciones) //Funcion para Cre
 
 char* Generar_Titulo()
 {
-    const char* adjetivo[] = {"MODO", "corrido", "casa del"};
-    const char* sustantivo[] = {"LOCO", "pro", "tierno"};
+    const char* adjetivo[] = {"MoDO", "corrido", "casa del", "deseo", "am0r", "Mi duo", "oda al "};
+    const char* sustantivo[] = {"LOCO", "pro", "tierno", "inge", "TriStE", "distinto"};
 
-    int Rand_Adjetivo = rand() % 3; //elige un adjetivo y sustantivo random
-    int Rand_Sustantivo = rand() % 3;
+    int Rand_Adjetivo = rand() % 7; //elige un adjetivo y sustantivo random
+    int Rand_Sustantivo = rand() % 6;
     char* Titulo = (char*)malloc(20 * sizeof(char)); //pedimos 20 espacios para las letras
     if(Titulo != NULL)
     {
@@ -102,11 +102,11 @@ char* Generar_Titulo()
 char* Generar_Artista()
 {
     //misma estructura que el titulo
-    const char* adjetivo[] = {"El", "Rip", "Lil", "Don"};
-    const char* sustantivo[] = {"Pepe", "Diamante", "Mencho", "TROLL"};
+    const char* adjetivo[] = {"El", "Rip", "Lil", "Don", "Lit", "The"};
+    const char* sustantivo[] = {"Pepe", "Diamante", "Mencho", "TROLL","Tierno", "DaRaptor4", "nBallinn","WhopperT"};
 
-    int Rand_Adjetivo = rand() % 4;
-    int Rand_Sustantivo = rand() % 4;
+    int Rand_Adjetivo = rand() % 6;
+    int Rand_Sustantivo = rand() % 8;
     char* Artista = (char*)malloc(20 * sizeof(char));
     if(Artista != NULL)
     {
