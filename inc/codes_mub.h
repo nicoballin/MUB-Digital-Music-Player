@@ -50,6 +50,7 @@ int Pedir_cantidad_de_Canciones();
 void Crear_Canciones(Cancion arr[],int cantidad_de_canciones);
 int Generar_Duracion_Seg();
 int Generar_Anho_Cancion();
+int Generar_N_Reproducciones();
 char* Generar_Titulo();
 char* Generar_Artista();
 void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones);

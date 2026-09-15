@@ -81,6 +81,7 @@ void Crear_Canciones(Cancion arr[],int cantidad_de_canciones) //Funcion para Cre
         arr[i].anho = Generar_Anho_Cancion();
         arr[i].nombre = Generar_Titulo();
         arr[i].artista = Generar_Artista();
+        arr[i].n_reproducciones = Generar_N_Reproducciones();
     }
 }
 
@@ -129,19 +130,28 @@ int Generar_Anho_Cancion() //Esta funcion se podria mejorar, que por tipo de gen
     return anho;
 }
 
+int Generar_N_Reproducciones()
+{
+    int rep;
+    rep = rand()%6701+1; //min 1 max 6700 , post multiplicar x10 : min 10 max 67000
+    rep = rep*10; //para que el ultimo digito siempre sea 0.
+    return rep;
+}
+
 void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones)
 {
-    printf("\n\t%-7s | %-23s | %-15s | %-22s | %-10s\n", "ID", "Titulo", "Artista", "Duracion", "Anho");
+    printf("\n\t%-7s | %-23s | %-15s | %-22s | %-4s |  %-9s |\n", "ID", "Titulo", "Artista", "Duracion", "Anho", "Reprod.");
     printf("\t--------------------------------------------------------------------------------\n");
     for(int i = 0 ; i < cantidad_de_canciones; i++)
     {
-        printf("\tID: %-4d| %-23s | %-15s | %d m %ds (%4d totales)| %d\n",
+        printf("\tID: %-4d| %-23s | %-15s | %-2dm %-2ds (%4d totales) | %-4d |  %-9d |\n",
         arr[i].id,
         arr[i].nombre, 
         arr[i].artista,
         arr[i].duracion_seg/60, 
         arr[i].duracion_seg%60, arr[i].duracion_seg, 
-        arr[i].anho);
+        arr[i].anho,
+        arr[i].n_reproducciones);
     }
     sleep(5);
 }

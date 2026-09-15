@@ -4,6 +4,8 @@
 
 int main()
 {
+    srand(time(NULL));
+
     int cantidad_de_canciones = Pedir_cantidad_de_Canciones(); //Numero de canciones
     Cancion Canciones[cantidad_de_canciones]; //Arreglo de Canciones
     Crear_Canciones(Canciones,cantidad_de_canciones);
@@ -25,7 +27,7 @@ int main()
             break;
 
         
-        case 2:
+        case 2: //reproduccion
             printf("\tEstas en la opcion 2 \n");
             printf("\tEstas en la opcion 2 \n");
             printf("\tEstas en la opcion 2 \n");
@@ -41,26 +43,47 @@ int main()
             //switch con cad tipo de orden
             switch (opcion_criterio)
             {
-            case ID: printf("\tHaz Seleccionado: Ordenar las Canciones por ID\n"); break;
-            case NOMBRE: printf("\tHaz Seleccionado: Ordenar las Canciones por Titulo\n"); break;
-            case ARTISTA: printf("\tHaz Seleccionado: Ordenar las Canciones por Artista\n"); break;
-            case ALBUM: printf("\tHaz Seleccionado: Ordenar las Canciones por Album\n"); break;
-            case GENERO: printf("\tHaz Seleccionado: Ordenar las Canciones por Genero\n"); break;
-            case DURACION: printf("\tHaz Seleccionado: Ordenar las Canciones por Duracion\n"); break;
-            case ANHO: printf("\tHaz Seleccionado: Ordenar las Canciones por Anho\n"); break;
-            case REPRODUCCIONES: printf("\tHaz Seleccionado: Ordenar las Canciones por Numero de Reproducciones\n"); break;
-            default: printf("\tHaz Seleccionado: Ordenar las Canciones por OPCION NO ENCONTRADA\n"); break;
+                case ID: 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por ID\n");
+                    break;
+                case NOMBRE:
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por Titulo\n"); 
+                    break;
+                case ARTISTA:
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por Artista\n"); 
+                    break;
+                case ALBUM: 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por Album\n"); 
+                    break;
+                case GENERO: 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por Genero\n"); 
+                    break;
+                case DURACION: 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por Duracion\n"); 
+                    break;
+                case ANHO: 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por Anho\n"); 
+                    break;
+                case REPRODUCCIONES: 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por Numero de Reproducciones\n"); 
+                    break;
+                default: 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por OPCION NO ENCONTRADA\n"); 
+                    break;
             }
 
             Print_Opciones_Orden();
             opcion_orden = Escoger_Opcion_Menu() - 1;
-            if(opcion_orden < 0) break;
+
+            if(opcion_orden < 0)
+                break;
+
             Bubble_Sort(Canciones, cantidad_de_canciones, opcion_criterio, opcion_orden);
             Print_Lista_Canciones(Canciones, cantidad_de_canciones);
 
             break;
         
-        case 4:
+        case 4: //HISTORIAL DE REPRODUCCIÓN
             printf("\tEstas en la opcion 4 \n");
             printf("\tEstas en la opcion 4 \n");
             printf("\tEstas en la opcion 4 \n");
