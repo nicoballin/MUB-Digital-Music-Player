@@ -33,6 +33,7 @@ void Print_Menu_Criterios_Ordenamiento()
     printf("\t[7] Por Anho\n");
     printf("\t[8] Por Numero de Reproducciones\n");
     printf("\t[0] Volver al Menu Incial");
+    printf("\n\n");
     printf("Ingrese la opción que desea escoger : ");
     return;
 }
@@ -42,7 +43,9 @@ void Print_Opciones_Orden()
     printf("\t¿De que manera desea ordenar las canciones?\n");
     printf("\t[1] Ascendente (Menor a Mayor / A-Z)\n");
     printf("\t[2] Descendente (MAyor a menor / Z-A)\n");
-    printf("\t[0] Volver al menu de Opciones.\n");
+    printf("\t[0] Volver al menu de Opciones.");
+    printf("\n\n");
+    printf("Ingrese la opción que desea escoger : ");
     
     return;
 }
