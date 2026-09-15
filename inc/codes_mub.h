@@ -53,6 +53,8 @@ int Generar_Anho_Cancion();
 int Generar_N_Reproducciones();
 char* Generar_Titulo();
 char* Generar_Artista();
+char* Generar_Album();
+char* Generar_Genero();
 void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones);
 void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_canciones);
 
