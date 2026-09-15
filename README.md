@@ -17,6 +17,7 @@ Nuestro mejora planteada es implementar la reproducción de música.
 
 ### Otros
 - **Memoria:** Todo malloc tiene su free correspondiente antes de salir del programa.
-- **Documentacion:** Cada función pública lleva comentario arriba: propósito, parámetros, valor de retorno y posibles errores
+- **Documentacion:** Cada función lleva comentario de su propósito, parámetros, valor de retorno.
+- **Documentacion:** No se utilizan ñ (se reemplaza por nh) en ninguna parte del codgio pra evitar errores en compiladores.
 - **Organizacion:** src/ para implementación, inc/ para headers, build//obj/ ignorados por git.
 - **Organizacion:** Un archivo .c/.h por módulo funcional
