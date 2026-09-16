@@ -49,7 +49,7 @@ int Escoger_Opcion_Menu();
 int Pedir_cantidad_de_Canciones();
 void Crear_Canciones(Cancion arr[],int cantidad_de_canciones);
 int Generar_Duracion_Seg();
-int Generar_Anho_Cancion();
+int Generar_Anho_Cancion(char* gnro);
 int Generar_N_Reproducciones();
 char* Generar_Titulo();
 char* Generar_Artista();

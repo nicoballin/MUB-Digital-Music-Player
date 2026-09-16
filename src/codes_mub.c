@@ -78,12 +78,12 @@ void Crear_Canciones(Cancion arr[],int cantidad_de_canciones) //Funcion para Cre
     {
         arr[i].id = 1+i;
         arr[i].duracion_seg = Generar_Duracion_Seg();
-        arr[i].anho = Generar_Anho_Cancion();
         arr[i].nombre = Generar_Titulo();
         arr[i].artista = Generar_Artista();
         arr[i].album = Generar_Album();
         arr[i].genero = Generar_Genero();
         arr[i].n_reproducciones = Generar_N_Reproducciones();
+        arr[i].anho = Generar_Anho_Cancion(arr[i].genero);
     }
 }
 
@@ -126,7 +126,7 @@ char* Generar_Album()
 
     int Rand_sustantivo = rand() % 5;
     int Rand_adjetivo = rand() % 6;
-    char* Album = (char*)malloc(20 * sizeof(char));
+    char* Album = (char*)malloc(30 * sizeof(char));
     if(Album != NULL)
     {
         sprintf(Album, "%s %s", sustantivo[Rand_sustantivo], adjetivo[Rand_adjetivo]);
@@ -136,9 +136,9 @@ char* Generar_Album()
 
 char* Generar_Genero()
 {
-    const char* genero[] = {"Rock", "Pop", "Hip Hop", "Jazz", "Disco", "Funk", "Bachata"};
+    const char* genero[] = {"Rock", "Pop", "Hip Hop", "Jazz", "Regueton", "Funk", "Trap", "Dubstep"};
 
-    int rand_genero = rand() % 7;
+    int rand_genero = rand() % 8;
     char* Genero = (char*)malloc(20 * sizeof(char));
     if(Genero != NULL)
     {
@@ -147,7 +147,6 @@ char* Generar_Genero()
     return Genero;
 }
 
-
 int Generar_Duracion_Seg()
 {
     int seg;
@@ -155,10 +154,18 @@ int Generar_Duracion_Seg()
     return seg;
 }
 
-int Generar_Anho_Cancion() //Esta funcion se podria mejorar, que por tipo de genero sea de cierta epoca
+int Generar_Anho_Cancion(char* gnro) //Esta funcion se podria mejorar, que por tipo de genero sea de cierta epoca
 {                           // Para que no haya un regueton del 1950 que ni existía 
     int anho;
-    anho = rand()%77 + 1950; //min 1950 max 2026
+    if(gnro == 'Regueton')
+        anho = rand()%27 + 2000; //min 2000 max 2026
+    else if(gnro == 'Dubstep')
+        anho = rand()%27 + 2000; //min 2000 max 2026
+    else if(gnro == 'Rock')
+        anho = rand()%50 + 1960; //min 1960 max 2009 
+    else 
+        anho = rand()%67 + 1950; 
+
     return anho;
 }
 
