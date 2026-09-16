@@ -1,4 +1,5 @@
 #include "codes_mub.h"
+#include "algoritmos.h"
 
 void Print_Menu_Inicial() //Funcion para imprimir el menu
 {
@@ -9,9 +10,9 @@ void Print_Menu_Inicial() //Funcion para imprimir el menu
     printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
     printf("\t\t MUB - Digital Player Music\n");
     printf("\t[1] Lista de Canciones\n");
-    printf("\t[2] Reproducir Canciones\n");
+    printf("\t[2] Menu de Lista de Reproduccion\n");
     printf("\t[3] Ordenar Canciones\n");
-    printf("\t[4] Opcion tres\n");
+    printf("\t[4] Reproducir Canciones\n");
     printf("\t[0] Salir :(");
     printf("\n\n");
     printf("Ingrese la opción que desea escoger : ");
@@ -126,6 +127,37 @@ void Print_Playlist(Cancion arr[], int cantidad_de_canciones)
     sleep(5);
 }
 
+void Print_Menu_Playlsit()
+{
+    sleep(2);
+    system("clear");
+    printf("\n");
+    printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
+    printf("\t\t Menu de Lista de Reproduccion\n");
+    printf("\t[1] Ver Lista de Canciones\n");
+    printf("\t[2] Ver Lista de Reproduccion\n");
+    printf("\t[3] Añadir Canciones a la Cola\n");
+    printf("\t[4] Quitar Canciones\n");
+    printf("\t[0] Volver a Menu Principal ");
+    printf("\n\n");
+    printf("Ingrese la opción que desea escoger : ");
+}
+
+void Print_Menu_anhadir_Playlsit()
+{
+    sleep(2);
+    system("clear");
+    printf("\n");
+    printf("\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
+    printf("\t\t Anhadir Canciones a la Lista de Reproduccion\n");
+    printf("\t[1] Ver Lista de Canciones\n");
+    printf("\t[2] Anhadir por ID\n");
+    printf("\t[3] Anhadir por Nombre\n");
+    printf("\t[0] Volver a Menu de Lista de Reproduccion ");
+    printf("\n\n");
+    printf("Ingrese la opción que desea escoger : ");
+}
+
 void Inicializar_Playlist(Cancion arr[], int cantidad_de_canciones)
 {
     for(int i = 0 ; i < cantidad_de_canciones; i++)
@@ -133,3 +165,27 @@ void Inicializar_Playlist(Cancion arr[], int cantidad_de_canciones)
         arr[i].id = 0;
     }
 }
+
+/*
+void Anhadir_Cancion_ID_Playlist(Cancion canciones[], Cancion Playlist[], int cantidad_de_canciones, int target)
+{
+    //buscar en que posicion esta esa id (puede que este ordenada o no)
+    Bubble_Sort(canciones,cantidad_de_canciones,ID,0);
+    Binary_Search(canciones,0,cantidad_de_canciones,target,ID);
+    for(int i = 0; i < cantidad_de_canciones;i++)
+    {
+        if(Playlist[i].id == canciones[target].id)
+        if(Playlist[i].id != 0) continue; //busca un hueco en la playlist
+
+        Playlist[i].id = canciones[target].id;
+        Playlist[i].nombre = canciones[target].nombre;
+        Playlist[i].n_reproducciones = canciones[target].n_reproducciones;
+        Playlist[i].album = canciones[target].album;
+        Playlist[i].anho = canciones[target].anho;
+        Playlist[i].artista = canciones[target].artista;
+        Playlist[i].duracion_seg = canciones[target].duracion_seg;
+        Playlist[i].genero = canciones[target].genero;
+        break;
+    }
+}
+*/
