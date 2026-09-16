@@ -1,18 +1,61 @@
 #include "algoritmos.h"
 
-int Binary_Search (int arr[], int low, int high, int x)
+//Busqueda Binaria dependiendo del criterio y el vaor ingresado por usuario, devuelve la pos excata de la cancion.
+int Binary_Search (Cancion arr[], int low, int high, Cancion target, Tipo_Criterio criterio)
 {
-    if (low > high)
-        return -1;
-    else 
+    if (low > high) return -1;
+    
+    int mid = low + (high - low)/2;
+    int comparacion = Comparar_Canciones_Search(arr[mid], target, criterio);
+
+    if(comparacion == 0) return mid; //Seencontro la cancionn
+
+    if(comparacion > 0) 
+        return Binary_Search(arr, low, mid - 1, target, criterio);
+    else
+        return Binary_Search(arr, mid +1, high, target, criterio);
+}
+
+//Funcion que compara las canciones con la que esta buscnado el usuario, ya sea por album, artista, id etc.
+int Comparar_Canciones_Search(Cancion a, Cancion target, Tipo_Criterio criterio)
+{
+    int diferencia = 0;
+    switch (criterio)
     {
-        int mid = low + (high - low) / 2;
-        if (arr[mid] == x)
-            return mid;
-        if (arr[mid] > x)
-            return Binary_Search (arr, low, mid - 1, x);
-        else
-            return Binary_Search (arr, mid + 1,high, x);
+    case ID:
+        diferencia = a.id - target.id;
+        if(diferencia == 0) return 0;
+        else if(diferencia < 0) return -1;
+        else return 1;
+
+    case ANHO:
+        diferencia = a.anho - target.anho;
+        if(diferencia == 0) return 0;
+        else if(diferencia < 0) return -1;
+        else return 1;
+
+    case NOMBRE:
+        if(strcmp(a.nombre, target.nombre) == 0) return 0;
+        else if(strcmp(a.nombre, target.nombre) < 0) return -1;
+        else return 1;
+
+    case ARTISTA:
+        if(strcmp(a.artista, target.artista) == 0) return 0;
+        else if(strcmp(a.artista, target.artista) < 0) return -1;
+        else return 1;
+
+    case ALBUM:
+        if(strcmp(a.album, target.album) == 0) return 0;
+        else if(strcmp(a.album, target.album) < 0) return -1;
+        else return 1;
+
+    case GENERO:
+        if(strcmp(a.genero, target.genero) == 0) return 0;
+        else if(strcmp(a.genero, target.genero) < 0) return -1;
+        else return 1;
+    
+    default:
+        return 0;
     }
 }
 
@@ -47,7 +90,7 @@ void Bubble_Sort (Cancion song[], int numero_canciones, Tipo_Criterio criterio, 
 }
 
 //Funcion para comparar 2 canciones segun el criterio y tipo de orden, retorna 1 si se tiene que aplicar el swap.
-int Comparar_Canciones(Cancion a, Cancion b, Tipo_Criterio criterio, Orden orden)
+int Comparar_Canciones_Sort(Cancion a, Cancion b, Tipo_Criterio criterio, Orden orden)
 {
     switch (criterio)
     {

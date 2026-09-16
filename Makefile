@@ -1,5 +1,5 @@
 CC=gcc
-EXEC=productos.out
+EXEC=mub.out
 GRUPO=1
 NTAR=2
 

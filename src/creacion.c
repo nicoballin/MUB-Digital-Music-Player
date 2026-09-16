@@ -89,14 +89,23 @@ int Generar_Duracion_Seg()
 int Generar_Anho_Cancion(char* gnro) //Esta funcion se podria mejorar, que por tipo de genero sea de cierta epoca
 {                           // Para que no haya un regueton del 1950 que ni existía 
     int anho;
-    if(gnro == 'Regueton')
-        anho = rand()%27 + 2000; //min 2000 max 2026
-    else if(gnro == 'Dubstep')
-        anho = rand()%27 + 2000; //min 2000 max 2026
-    else if(gnro == 'Rock')
-        anho = rand()%50 + 1960; //min 1960 max 2009 
-    else 
-        anho = rand()%67 + 1950; 
+    if (strcmp(gnro, "Regueton") == 0 || strcmp(gnro, "Dubstep") == 0 || strcmp(gnro, "Trap") == 0)
+        anho = rand() % 27 + 2000; // 2000 - 2026
+
+    else if (strcmp(gnro, "Hip Hop") == 0)
+        anho = rand() % 53 + 1974;  // 1974 - 2026
+
+    else if (strcmp(gnro, "Rock") == 0)
+        anho = rand() % 67 + 1960;  // 1960 - 2026
+
+    else if (strcmp(gnro, "Jazz") == 0)
+        anho = rand() % 77 + 1950;  // 1950 - 2026
+
+    else if (strcmp(gnro, "Pop") == 0)
+        anho = rand() % 47 + 1980;  // 1980 - 2026
+    
+    else
+        anho = rand() % 67 + 1950; // 1950 - 2016
 
     return anho;
 }
