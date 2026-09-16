@@ -10,6 +10,8 @@ int main()
 
     int cantidad_de_canciones = Pedir_cantidad_de_Canciones(); //Numero de canciones
     Cancion Canciones[cantidad_de_canciones]; //Arreglo de Canciones
+    Cancion Playlist[cantidad_de_canciones]; //fila de reproduccion
+    Inicializar_Playlist(Playlist, cantidad_de_canciones);
     Crear_Canciones(Canciones,cantidad_de_canciones);
     int opcion_menu, opcion_criterio, opcion_orden;
     
@@ -29,11 +31,8 @@ int main()
             break;
 
         
-        case 2: //reproduccion
-            printf("\tEstas en la opcion 2 \n");
-            printf("\tEstas en la opcion 2 \n");
-            printf("\tEstas en la opcion 2 \n");
-            printf("\tEstas en la opcion 2 \n");
+        case 2: //Playlist / reproduccion
+            Print_Playlist(Playlist, cantidad_de_canciones);
             break;
 
         case 3:

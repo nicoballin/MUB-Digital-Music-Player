@@ -72,7 +72,6 @@ int Escoger_Opcion_Menu() //Funcion utilizadap ara escojer una opcion en el menu
     return opcion;
 }
 
-
 void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones)
 {
     printf("\n\t%-7s | %-18s | %-14s | %-24s | %-10s | %s | %-4s | %-8s |\n", "ID", "Titulo", "Artista", "Album", "Genero", "Duracion", "Anho", "Reprod.");
@@ -100,5 +99,37 @@ void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_cancioens)
         free(arr[i].artista);
         free(arr[i].album);
         free(arr[i].genero);
+    }
+}
+
+void Print_Playlist(Cancion arr[], int cantidad_de_canciones)
+{
+    printf("\n\t%-7s | %-18s | %-14s | %-24s | %s  | %-8s |\n", "ID", "Titulo", "Artista", "Album", "Duracion", "Reprod.");
+    printf("\t----------------------------------------------------------------------------------------------------------------\n");
+    for(int i = 0 ; i < cantidad_de_canciones; i++)
+    {
+        if (i == 0 && arr[i].id == 0)
+        {
+            printf("\t Lista de Reproduccion vacia! \n");
+            return;
+        }
+        else if(arr[i].id == 0)
+            continue;
+        printf("\tID: %-3d | %-18s | %-14s | %-24s | %2dm %02ds | %-8d |\n",
+        arr[i].id,
+        arr[i].nombre, 
+        arr[i].artista,
+        arr[i].album,
+        arr[i].duracion_seg/60, arr[i].duracion_seg%60, 
+        arr[i].n_reproducciones);
+    }
+    sleep(5);
+}
+
+void Inicializar_Playlist(Cancion arr[], int cantidad_de_canciones)
+{
+    for(int i = 0 ; i < cantidad_de_canciones; i++)
+    {
+        arr[i].id = 0;
     }
 }

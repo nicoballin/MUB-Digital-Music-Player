@@ -48,16 +48,20 @@ char* Generar_Artista()
 
 char* Generar_Album()
 {
+    int sencillo_album = rand()%4;
     //misma estructura que el titulo
-    const char* sustantivo[] = {"After", "Los", "Noche de", "Un verano sin", "Yo soy"};
-    const char* adjetivo[] = {"2.0", "mortem", "Fortnite", "Kirk", "Aura", "Mambo"};
+    const char* sustantivo[] = {"After", "Los", "Noche de", "Un verano sin", "Yo soy", "eL nUevo", "x100pre"};
+    const char* adjetivo[] = {"2.0", "mortem", "Fortnite", "Kirk", "Aura", "Mambo", "Sonido", "67"};
 
-    int Rand_sustantivo = rand() % 5;
-    int Rand_adjetivo = rand() % 6;
+    int Rand_sustantivo = rand() % 7;
+    int Rand_adjetivo = rand() % 8;
     char* Album = (char*)malloc(30 * sizeof(char));
     if(Album != NULL)
     {
-        sprintf(Album, "%s %s", sustantivo[Rand_sustantivo], adjetivo[Rand_adjetivo]);
+        if(sencillo_album != 0)
+            sprintf(Album, "%s %s", sustantivo[Rand_sustantivo], adjetivo[Rand_adjetivo]);
+        else 
+            sprintf(Album, "Sencillo");
     }
     return Album;
 }
