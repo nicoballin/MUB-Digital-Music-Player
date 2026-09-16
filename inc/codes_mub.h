@@ -47,14 +47,6 @@ void Print_Menu_Criterios_Ordenamiento();
 void Print_Opciones_Orden();
 int Escoger_Opcion_Menu();
 int Pedir_cantidad_de_Canciones();
-void Crear_Canciones(Cancion arr[],int cantidad_de_canciones);
-int Generar_Duracion_Seg();
-int Generar_Anho_Cancion(char* gnro);
-int Generar_N_Reproducciones();
-char* Generar_Titulo();
-char* Generar_Artista();
-char* Generar_Album();
-char* Generar_Genero();
 void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones);
 void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_canciones);
 

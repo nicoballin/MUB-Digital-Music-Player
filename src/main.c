@@ -1,5 +1,7 @@
 #include "algoritmos.h"
 #include "codes_mub.h"
+#include "creacion.h"
+
 #include <stdio.h>
 
 int main()
