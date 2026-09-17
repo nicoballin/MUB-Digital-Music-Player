@@ -2,13 +2,57 @@
 
 void Crear_Canciones(Cancion arr[],int cantidad_de_canciones) //Funcion para Crear Canciones
 {
-    for(int i = 0; i<cantidad_de_canciones;i++)
+    int i, j;
+    int album_encontrado;
+    char* album_existentes[cantidad_de_canciones];
+    char* artista_album[cantidad_de_canciones];
+    int cantidad_albumes = 0;
+    
+    for(i = 0; i < cantidad_de_canciones;i++)
     {
-        arr[i].id = 1+i;
+        arr[i].id = 1 + i;
         arr[i].duracion_seg = Generar_Duracion_Seg();
         arr[i].nombre = Generar_Titulo();
+
         arr[i].artista = Generar_Artista();
-        arr[i].album = Generar_Album();
+        arr[i].album = Generar_Album(album_existentes, cantidad_albumes);
+
+        //si se reutiliza un album hay que usar el msimo artista
+        if(strcmp(arr[i].album, "Single") != 0)
+        {
+            album_encontrado = -1;
+
+            for(j = 0; j < cantidad_albumes; j++)
+            {
+                if(strcmp(arr[i].album, album_existentes[j]) == 0)
+                {
+                    album_encontrado = j;
+                    break;
+                }
+            }
+            
+            //si el album se encontro  y ya existia se utiliza su artista
+            if(album_encontrado != -1)
+            {
+                free(arr[i].artista);
+                
+                arr[i].artista = (char*)malloc(20 * sizeof(char)); 
+                if(arr[i].artista != NULL) 
+                    sprintf(arr[i].artista, "%s", artista_album[album_encontrado]);
+            }
+            else // si es album nuevo se guarda el album + artista
+            {
+                album_existentes[cantidad_albumes] = arr[i].album;
+                
+                artista_album[cantidad_albumes] = (char*)malloc(20 * sizeof(char));
+                if(artista_album[cantidad_albumes] != NULL) 
+                    sprintf(artista_album[cantidad_albumes], "%s", arr[i].artista);
+
+                cantidad_albumes++;
+            }
+
+        }
+
         arr[i].genero = Generar_Genero();
         arr[i].n_reproducciones = Generar_N_Reproducciones();
         arr[i].anho = Generar_Anho_Cancion(arr[i].genero);
@@ -33,11 +77,11 @@ char* Generar_Titulo()
 char* Generar_Artista()
 {
     //misma estructura que el titulo
-    const char* sustantivo[] = {"El", "Rip", "Lil", "Don", "Lit", "The"};
-    const char* adjetivo[] = {"Pepe", "Diamante", "Mencho", "TROLL","Tierno", "DaRaptor4", "nBallinn","WhopperT"};
+    const char* sustantivo[] = {"El", "Rip", "Lil", "Don", "Lit", "The", "King"};
+    const char* adjetivo[] = {"Pepe", "Diamante", "Mencho", "TROLL","Tierno", "DaRaptor4", "nBallinn","WhopperT", "under"};
 
-    int Rand_Sustantivo = rand() % 6;
-    int Rand_Adjetivo = rand() % 8;
+    int Rand_Sustantivo = rand() % 7;
+    int Rand_Adjetivo = rand() % 9;
     char* Artista = (char*)malloc(20 * sizeof(char));
     if(Artista != NULL)
     {
@@ -46,23 +90,42 @@ char* Generar_Artista()
     return Artista;
 }
 
-char* Generar_Album()
+char* Generar_Album(char* album_existentes[], int cantidad_albumes)
 {
-    int sencillo_album = rand()%4;
+    int tipo_album = rand()%100;
+   
+    if(tipo_album < 20) // 20% de las canciones sera Single
+    {
+        char* Album = (char*)malloc(30 * sizeof(char)); 
+        if(Album != NULL) 
+            sprintf(Album, "Single"); 
+        
+        return Album;
+    }
+    if(tipo_album < 70 && cantidad_albumes > 0) // Si hay 1 album o mas el 50% de las canciones se añadira al album
+    {
+        int album_random = rand() % cantidad_albumes; 
+        char* Album = (char*)malloc(30 * sizeof(char)); 
+        
+        if(Album != NULL) 
+            sprintf(Album, "%s", album_existentes[album_random]); 
+       
+        return Album;
+    }
+
+    // 30% faltante es un album nuevo
     //misma estructura que el titulo
     const char* sustantivo[] = {"After", "Los", "Noche de", "Un verano sin", "Yo soy", "eL nUevo", "x100pre"};
     const char* adjetivo[] = {"2.0", "mortem", "Fortnite", "Kirk", "Aura", "Mambo", "Sonido", "67"};
-
+    
     int Rand_sustantivo = rand() % 7;
     int Rand_adjetivo = rand() % 8;
     char* Album = (char*)malloc(30 * sizeof(char));
+
     if(Album != NULL)
-    {
-        if(sencillo_album != 0)
-            sprintf(Album, "%s %s", sustantivo[Rand_sustantivo], adjetivo[Rand_adjetivo]);
-        else 
-            sprintf(Album, "Sencillo");
-    }
+        sprintf(Album, "%s %s", sustantivo[Rand_sustantivo], adjetivo[Rand_adjetivo]);
+    
+
     return Album;
 }
 

@@ -70,7 +70,7 @@ void Bubble_Sort (Cancion song[], int numero_canciones, Tipo_Criterio criterio, 
         swap = 0;
         for (j = 0; j < numero_canciones - 1; j++)
         {
-            if (Comparar_Canciones(song[j], song[j+1], criterio, orden) == 1)
+            if (Comparar_Canciones_Sort(song[j], song[j+1], criterio, orden) == 1)
             {
                 //Intercambio
                 temp = song[j];
