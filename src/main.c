@@ -32,7 +32,57 @@ int main()
 
         
         case 2: //Playlist / reproduccion
-            Print_Playlist(Playlist, cantidad_de_canciones);
+            int running_playlist = 1;
+            int opcion_menu_playlist;
+            while (running_playlist)
+            {
+                Print_Menu_Playlsit();
+                opcion_menu_playlist = Escoger_Opcion_Menu();
+                switch (opcion_menu_playlist)
+                {
+                case 1:
+                    Print_Lista_Canciones(Canciones,cantidad_de_canciones);
+                    break;
+                
+                case 2:
+                    Print_Playlist(Playlist,cantidad_de_canciones);
+                    break;
+                case 3:
+                    int opcion_anhadir_playlist = 1;
+                    int opcion_menu_anhadir_playlist;
+                    while (opcion_anhadir_playlist)
+                    {
+                        Print_Menu_anhadir_Playlsit();
+                        opcion_menu_anhadir_playlist = Escoger_Opcion_Menu();
+                        switch (opcion_menu_anhadir_playlist)
+                        {
+                        case 1:
+                            Print_Lista_Canciones(Canciones,cantidad_de_canciones);
+                            break;
+                        case 2:
+                            int id_cancion;
+                            printf("Ingrese la ID de la cancion a agregar : ");
+                            id_cancion = Escoger_Opcion_Menu();
+                            
+                            break;
+                        case 0:
+                            opcion_anhadir_playlist = 0;
+                            break;
+                        default:
+                            break;
+                        }
+                    }
+                    break;
+                case 4:
+                    break;
+                case 0:
+                    running_playlist = 0;
+                    break;
+                default:
+                    printf("Ingrese una opción Valida");
+                    break;
+                }
+            }
             break;
 
         case 3:

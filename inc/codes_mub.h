@@ -45,11 +45,14 @@ typedef struct _cancion
 void Print_Menu_Inicial();
 void Print_Menu_Criterios_Ordenamiento();
 void Print_Opciones_Orden();
+void Print_Menu_Playlsit();
+void Print_Playlist(Cancion arr[], int cantidad_de_canciones);
+void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones);
+void Print_Menu_anhadir_Playlsit();
+
 int Escoger_Opcion_Menu();
 int Pedir_cantidad_de_Canciones();
-void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones);
 void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_canciones);
-void Print_Playlist(Cancion arr[], int cantidad_de_canciones);
 void Inicializar_Playlist(Cancion arr[], int cantidad_de_canciones);
 
 #endif
