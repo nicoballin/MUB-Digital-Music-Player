@@ -6,6 +6,7 @@ void Crear_Canciones(Cancion arr[],int cantidad_de_canciones) //Funcion para Cre
     int album_encontrado;
     char* album_existentes[cantidad_de_canciones];
     char* artista_album[cantidad_de_canciones];
+    int anho_album[cantidad_de_canciones];
     int cantidad_albumes = 0;
     
     for(i = 0; i < cantidad_de_canciones;i++)
@@ -16,6 +17,8 @@ void Crear_Canciones(Cancion arr[],int cantidad_de_canciones) //Funcion para Cre
 
         arr[i].artista = Generar_Artista();
         arr[i].album = Generar_Album(album_existentes, cantidad_albumes);
+        arr[i].genero = Generar_Genero();
+        arr[i].anho = Generar_Anho_Cancion(arr[i].genero);
 
         //si se reutiliza un album hay que usar el msimo artista
         if(strcmp(arr[i].album, "Single") != 0)
@@ -39,8 +42,10 @@ void Crear_Canciones(Cancion arr[],int cantidad_de_canciones) //Funcion para Cre
                 arr[i].artista = (char*)malloc(20 * sizeof(char)); 
                 if(arr[i].artista != NULL) 
                     sprintf(arr[i].artista, "%s", artista_album[album_encontrado]);
+
+                arr[i].anho = anho_album[album_encontrado]; //la cancion toma el año del album
             }
-            else // si es album nuevo se guarda el album + artista
+            else // si es album nuevo se guarda el album + su año + artista
             {
                 album_existentes[cantidad_albumes] = arr[i].album;
                 
@@ -48,14 +53,14 @@ void Crear_Canciones(Cancion arr[],int cantidad_de_canciones) //Funcion para Cre
                 if(artista_album[cantidad_albumes] != NULL) 
                     sprintf(artista_album[cantidad_albumes], "%s", arr[i].artista);
 
+                anho_album[cantidad_albumes] = arr[i].anho;//guardamos el año del album
                 cantidad_albumes++;
             }
 
         }
 
-        arr[i].genero = Generar_Genero();
         arr[i].n_reproducciones = Generar_N_Reproducciones();
-        arr[i].anho = Generar_Anho_Cancion(arr[i].genero);
+
     }
 }
 
