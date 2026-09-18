@@ -54,5 +54,7 @@ int Escoger_Opcion_Menu();
 int Pedir_cantidad_de_Canciones();
 void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_canciones);
 void Inicializar_Playlist(Cancion arr[], int cantidad_de_canciones);
+void Anhadir_Cancion_ID_Playlist(Cancion canciones[], Cancion Playlist[], int cantidad_de_canciones, int target);
+
 
 #endif

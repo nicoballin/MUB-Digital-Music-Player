@@ -63,7 +63,7 @@ int main()
                             int id_cancion;
                             printf("Ingrese la ID de la cancion a agregar : ");
                             id_cancion = Escoger_Opcion_Menu();
-                            
+                            Anhadir_Cancion_ID_Playlist(Canciones, Playlist, cantidad_de_canciones, id_cancion);
                             break;
                         case 0:
                             opcion_anhadir_playlist = 0;
