@@ -1,6 +1,8 @@
+#include "colores.h"
 #include "algoritmos.h"
 #include "codes_mub.h"
 #include "creacion.h"
+
 
 #include <stdio.h>
 
@@ -11,7 +13,9 @@ int main()
     int cantidad_de_canciones = Pedir_cantidad_de_Canciones(); //Numero de canciones
     Cancion Canciones[cantidad_de_canciones]; //Arreglo de Canciones
     Cancion Playlist[cantidad_de_canciones]; //fila de reproduccion
+    Cancion Historial[TAMANHO_HISTORIAL];
     Inicializar_Playlist(Playlist, cantidad_de_canciones);
+    Inicializar_Playlist(Historial, cantidad_de_canciones);
     Crear_Canciones(Canciones,cantidad_de_canciones);
     int opcion_menu, opcion_criterio, opcion_orden;
     
@@ -95,31 +99,31 @@ int main()
             switch (opcion_criterio)
             {
                 case ID: 
-                    printf("\tHaz Seleccionado: Ordenar las Canciones por ID\n");
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por "ROJO"ID\n"RESET);
                     break;
                 case NOMBRE:
-                    printf("\tHaz Seleccionado: Ordenar las Canciones por Titulo\n"); 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por "ROJO"Titulo\n"RESET); 
                     break;
                 case ARTISTA:
-                    printf("\tHaz Seleccionado: Ordenar las Canciones por Artista\n"); 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por "ROJO"Artista\n"RESET); 
                     break;
                 case ALBUM: 
-                    printf("\tHaz Seleccionado: Ordenar las Canciones por Album\n"); 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por "ROJO"Album\n"RESET); 
                     break;
                 case GENERO: 
-                    printf("\tHaz Seleccionado: Ordenar las Canciones por Genero\n"); 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por "ROJO"Genero\n"RESET); 
                     break;
                 case DURACION: 
-                    printf("\tHaz Seleccionado: Ordenar las Canciones por Duracion\n"); 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por "ROJO"Duracion\n"RESET); 
                     break;
                 case ANHO: 
-                    printf("\tHaz Seleccionado: Ordenar las Canciones por Anho\n"); 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por "ROJO"Anho\n"RESET); 
                     break;
                 case REPRODUCCIONES: 
-                    printf("\tHaz Seleccionado: Ordenar las Canciones por Numero de Reproducciones\n"); 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por "ROJO"Numero de Reproducciones\n"RESET); 
                     break;
                 default: 
-                    printf("\tHaz Seleccionado: Ordenar las Canciones por OPCION NO ENCONTRADA\n"); 
+                    printf("\tHaz Seleccionado: Ordenar las Canciones por "ROJO"OPCION NO ENCONTRADA\n"RESET); 
                     break;
             }
 
@@ -135,10 +139,28 @@ int main()
             break;
         
         case 4: //HISTORIAL DE REPRODUCCIÓN
-            printf("\tEstas en la opcion 4 \n");
-            printf("\tEstas en la opcion 4 \n");
-            printf("\tEstas en la opcion 4 \n");
-            printf("\tEstas en la opcion 4 \n");
+            int running_reproduccion = 1;
+            int opcion_menu_reproduccion;
+            while(running_reproduccion)
+            {
+                Print_Menu_Reproduccion();
+                opcion_menu_reproduccion = Escoger_Opcion_Menu();
+                switch (opcion_menu_reproduccion)
+                {
+                case 1:
+                    Reproducir_Cancion(Canciones,Playlist,Historial,cantidad_de_canciones);
+                    break;
+                case 2:
+                    Print_Historial(Historial);
+                    break;
+                case 0:
+                    running_reproduccion = 0;
+                    break;
+                default:
+                    printf("Ingrese una opción valida!");
+                    break;
+                }
+            }
             break;
 
         default:

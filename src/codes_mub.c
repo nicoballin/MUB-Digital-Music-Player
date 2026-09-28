@@ -1,14 +1,13 @@
 #include "codes_mub.h"
 #include "algoritmos.h"
+#include "colores.h"
 
 void Print_Menu_Inicial() //Funcion para imprimir el menu
 {
-
-    sleep(2);
     system("clear");
     printf("\n");
     printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
-    printf("\t\t MUB - Digital Player Music\n");
+    printf(ROJO"\t\t M" AZUL"U" CIAN"B" ROJO" - Digital " AZUL"Player " CIAN"Music\n"RESET);
     printf("\t[1] Lista de Canciones\n");
     printf("\t[2] Menu de Lista de Reproduccion\n");
     printf("\t[3] Ordenar Canciones\n");
@@ -20,7 +19,6 @@ void Print_Menu_Inicial() //Funcion para imprimir el menu
 
 void Print_Menu_Criterios_Ordenamiento()
 {
-    sleep(2);
     system("clear");
     printf("\n");
     printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
@@ -89,7 +87,7 @@ void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones)
         arr[i].anho,
         arr[i].n_reproducciones);
     }
-    sleep(5);
+    sleep(8);
 }
 
 void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_cancioens)
@@ -129,7 +127,6 @@ void Print_Playlist(Cancion arr[], int cantidad_de_canciones)
 
 void Print_Menu_Playlsit()
 {
-    sleep(2);
     system("clear");
     printf("\n");
     printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
@@ -154,6 +151,19 @@ void Print_Menu_anhadir_Playlsit()
     printf("\t[2] Anhadir por ID\n");
     printf("\t[3] Anhadir por Nombre\n");
     printf("\t[0] Volver a Menu de Lista de Reproduccion ");
+    printf("\n\n");
+    printf("Ingrese la opción que desea escoger : ");
+}
+
+void Print_Menu_Reproduccion()
+{
+    system("clear");
+    printf("\n");
+    printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
+    printf("\t\t Reproduccion e Historial\n");
+    printf("\t[1] Reproducir Cancion (primera de la fila)\n");
+    printf("\t[2] Ver Historial de Reproduccion\n");
+    printf("\t[0] Volver al Menu Principal");
     printf("\n\n");
     printf("Ingrese la opción que desea escoger : ");
 }
@@ -204,4 +214,78 @@ void Anhadir_Cancion_ID_Playlist(Cancion canciones[], Cancion Playlist[], int ca
 
     Playlist[0] = aux;
     printf("Cancion agregada correctamente\n");
+}
+
+void Aumentar_Reproduccion(Cancion Canciones[],int cantidad_de_canciones,int id_cancion)
+{
+    for(int i = 0 ; i<cantidad_de_canciones;i++)
+    {
+        if(Canciones[i].id == id_cancion)
+        {
+            Canciones[i].n_reproducciones++;
+            return;
+        }
+    }
+}
+
+void Agregar_Cancion_Historial(Cancion historial[],Cancion cancion_reproducida)
+{
+    for (int i = TAMANHO_HISTORIAL - 1; i > 0; i--)
+    {
+        historial[i] = historial[i - 1]; //copia de abajo hacia arriba
+    }
+    historial[0] = cancion_reproducida;
+}
+
+void Quitar_Primera_Cancion_Playlist(Cancion playlist[],int cantidad_de_canciones)
+{
+    for (int i = 0; i < cantidad_de_canciones; i++)
+    {
+        playlist[i] = playlist[i - 1]; 
+    }
+    playlist[cantidad_de_canciones - 1].id = 0;
+}
+
+void Reproducir_Cancion(Cancion canciones[],Cancion playlist[], Cancion historial[],int cantidad_de_canciones)
+{
+    if(playlist[0].id == 0)
+    {
+        printf("\tLa fila de reproduccion esta vacia! No se puede reproducir nada\n");
+        sleep(2);
+        return;
+    }
+    Cancion cancion_actual = playlist[0];
+
+    printf("\n\t Reproduciendo ahora:\n");
+    printf("\t %s - %s [%s]\n", cancion_actual.nombre, cancion_actual.artista, cancion_actual.album);
+
+    Aumentar_Reproduccion(canciones,cantidad_de_canciones,cancion_actual.id);
+    Agregar_Cancion_Historial(historial,cancion_actual);
+    Quitar_Primera_Cancion_Playlist(playlist,cantidad_de_canciones);
+
+    sleep(3);
+}
+
+void Print_Historial(Cancion historial[])
+{
+    printf("\n\t%-7s | %-18s | %-14s | %-24s | %-8s |\n", "ID", "Titulo", "Artista", "Album", "Reprod.");
+    printf("\t---------------------------------------------------------------------------------\n");
+    for (int i = 0; i < TAMANHO_HISTORIAL; i++)
+    {
+        if (i == 0 && historial[i].id == 0)
+        {
+            printf("\t Aun no se ha reproducido ninguna cancion! \n");
+            return;
+        }
+        else if (historial[i].id == 0)
+            continue;
+
+        printf("\tID: %-3d | %-18s | %-14s | %-24s | %-8d |\n",
+            historial[i].id,
+            historial[i].nombre,
+            historial[i].artista,
+            historial[i].album,
+            historial[i].n_reproducciones);
+    }
+    sleep(5);
 }

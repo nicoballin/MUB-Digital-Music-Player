@@ -1,6 +1,6 @@
 /**
- * @file algoritmoss.h
- * @brief Archivo Header para definir los algoritms que utilizaremos
+ * @file algoritmos.h
+ * @brief Archivo Header para definir los algoritmos que utilizaremos
 */
 #ifndef ALGORITMO
 #define ALGORITMO
