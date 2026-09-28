@@ -66,11 +66,26 @@ void Crear_Canciones(Cancion arr[],int cantidad_de_canciones) //Funcion para Cre
 
 char* Generar_Titulo()
 {
-    const char* sustantivo[] = {"MoDO", "corrido", "casa del", "deseo", "am0r", "Mi duo", "oda al "};
-    const char* adjetivo[] = {"LOCO", "pro", "tierno", "inge", "TriStE", "distinto"};
+    const char* sustantivo[] = {
+    "Modo", "Corrido", "Casa de", "Deseo", "Am0r", "Noche", "Fuego", "Sueno",
+    "Baile", "Oda al", "Mi duo", "Ritmo", "Locura", "Guerra", "Lagrimas", "Tormenta",
+    "Ciudad", "Camino", "Reino", "Sombra", "Luna", "Fiesta", "Vicio", "Aura",
+    "Midnight", "Broken", "Golden", "Neon", "Stereo", "Highway", "Velvet", "Gravity",
+    "Electric", "Wild", "Silent", "Lonely", "Burning", "Paper", "Crystal", "Ghost",
+    "Rebel", "Dream", "Static", "Thunder", "Sunset", "Hollow", "Runaway", "Cosmic"
+};
 
-    int Rand_Sustantivo = rand() % 7; //elige un adjetivo y sustantivo random
-    int Rand_Adjetivo = rand() % 6;
+    const char* adjetivo[] = {
+    "LOCO", "pro", "tierno", "inge", "TriStE", "distinto", "eterno", "salvaje",
+    "perdido", "dorado", "oscuro", "secreto", "final", "mortal", "cruel", "veloz",
+    "amargo", "radical", "prohibido", "callejero", "bravo", "peligroso", "genial", "2.0",
+    "Heart", "Nights", "Dreams", "Fire", "Rain", "Love", "Skies", "Road",
+    "Kids", "Echoes", "Lights", "Stars", "Waves", "Souls", "Blues", "Season",
+    "Ghosts", "Summer", "Machine", "Paradise", "Fever", "Eyes", "Dance", "Tears"
+};
+
+    int Rand_Sustantivo = rand() % 48; //elige un adjetivo y sustantivo random
+    int Rand_Adjetivo = rand() % 48;
     char* Titulo = (char*)malloc(20 * sizeof(char)); //pedimos 20 espacios para las letras
     if(Titulo != NULL)
     {
@@ -82,11 +97,17 @@ char* Generar_Titulo()
 char* Generar_Artista()
 {
     //misma estructura que el titulo
-    const char* sustantivo[] = {"El", "Rip", "Lil", "Don", "Lit", "The", "King"};
-    const char* adjetivo[] = {"Pepe", "Diamante", "Mencho", "TROLL","Tierno", "DaRaptor4", "nBallinn","WhopperT", "under"};
+    const char* sustantivo[] = {
+    "El", "Rip", "Lil", "Don", "Lit", "The", "King", "Big",
+    "MC", "DJ", "Sir", "Doc", "Kid", "Ice", "Mr", "Yung"};
+    const char* adjetivo[] = {
+    "Pepe", "Diamante", "Mencho", "TROLL", "Tierno", "DaRaptor4", "nBallinn", "WhopperT",
+    "under", "Fantasma", "Coyote", "Nova", "Zorro", "Cobra", "Vandal", "Sombra",
+    "Rayo", "Chacal", "Fenix", "Titan", "Loko", "Phantom", "Rocket", "Bandido",
+    "Wolf", "Menta", "Cactus", "Turbo", "Flamingo", "Magnate"};
 
-    int Rand_Sustantivo = rand() % 7;
-    int Rand_Adjetivo = rand() % 9;
+    int Rand_Sustantivo = rand() % 16;
+    int Rand_Adjetivo = rand() % 30;
     char* Artista = (char*)malloc(20 * sizeof(char));
     if(Artista != NULL)
     {
@@ -120,11 +141,19 @@ char* Generar_Album(char* album_existentes[], int cantidad_albumes)
 
     // 30% faltante es un album nuevo
     //misma estructura que el titulo
-    const char* sustantivo[] = {"After", "Los", "Noche de", "Un verano sin", "Yo soy", "eL nUevo", "x100pre"};
-    const char* adjetivo[] = {"2.0", "mortem", "Fortnite", "Kirk", "Aura", "Mambo", "Sonido", "67"};
+    const char* sustantivo[] = {
+    "After", "Los", "Noche de", "Un verano sin", "Yo soy", "eL nUevo", "x100pre", "Viaje a",
+    "Regreso a", "Mundo de", "Historias de", "Lo mejor de", "Pura", "Solo", "Full", "Modo",
+    "Era de", "Sin fin", "Ultimo", "Gran"};
+
+    const char* adjetivo[] = {
+    "2.0", "mortem", "Fortnite", "Kirk", "Aura", "Mambo", "Sonido", "67",
+    "Neon", "Vertigo", "Cenizas", "Oro", "Caos", "Gloria", "Frio", "Rebelde",
+    "Eclipse", "Nostalgia", "Verano", "Cristal", "Infierno", "Paraiso", "Fantasia", "Delirio",
+    "Sabor", "Gravedad", "Hielo", "Trueno", "Mareas", "Elegancia"};
     
-    int Rand_sustantivo = rand() % 7;
-    int Rand_adjetivo = rand() % 8;
+    int Rand_sustantivo = rand() % 20;
+    int Rand_adjetivo = rand() % 30;
     char* Album = (char*)malloc(30 * sizeof(char));
 
     if(Album != NULL)
@@ -161,17 +190,20 @@ int Generar_Anho_Cancion(char* gnro) //Esta funcion se podria mejorar, que por t
         anho = rand() % 27 + 2000; // 2000 - 2026
 
     else if (strcmp(gnro, "Hip Hop") == 0)
-        anho = rand() % 53 + 1974;  // 1974 - 2026
+        anho = rand() % 48 + 1979;  // 1979 - 2026
 
     else if (strcmp(gnro, "Rock") == 0)
-        anho = rand() % 67 + 1960;  // 1960 - 2026
+        anho = rand() % 72 + 1955;  // 1960 - 2026
 
     else if (strcmp(gnro, "Jazz") == 0)
-        anho = rand() % 77 + 1950;  // 1950 - 2026
+        anho = rand() % 87 + 1940;  // 1950 - 2026
 
     else if (strcmp(gnro, "Pop") == 0)
-        anho = rand() % 47 + 1980;  // 1980 - 2026
-    
+        anho = rand() % 67 + 1960;  // 1980 - 2026
+
+    else if (strcmp(gnro, "Jazz") == 0)
+        anho = rand() % 87 + 1940;  // 1940 - 2026
+
     else
         anho = rand() % 67 + 1950; // 1950 - 2016
 
