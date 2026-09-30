@@ -1,6 +1,5 @@
 #include "algoritmos.h"
 
-//Busqueda Binaria dependiendo del criterio y el vaor ingresado por usuario, devuelve la pos excata de la cancion.
 int Binary_Search (Cancion arr[], int low, int high, Cancion target, Tipo_Criterio criterio)
 {
     if (low > high) return -1;
@@ -16,7 +15,6 @@ int Binary_Search (Cancion arr[], int low, int high, Cancion target, Tipo_Criter
         return Binary_Search(arr, mid +1, high, target, criterio);
 }
 
-//Funcion que compara las canciones con la que esta buscnado el usuario, ya sea por album, artista, id etc.
 int Comparar_Canciones_Search(Cancion a, Cancion target, Tipo_Criterio criterio)
 {
     int diferencia = 0;
@@ -59,7 +57,6 @@ int Comparar_Canciones_Search(Cancion a, Cancion target, Tipo_Criterio criterio)
     }
 }
 
-//Ordenamiento Burbuja segun Criterio y en que orden (ascendente o descendente)
 void Bubble_Sort (Cancion song[], int numero_canciones, Tipo_Criterio criterio, Orden orden)
 {
     int i, j, swap;
@@ -89,7 +86,6 @@ void Bubble_Sort (Cancion song[], int numero_canciones, Tipo_Criterio criterio, 
     return;
 }
 
-//Funcion para comparar 2 canciones segun el criterio y tipo de orden, retorna 1 si se tiene que aplicar el swap.
 int Comparar_Canciones_Sort(Cancion a, Cancion b, Tipo_Criterio criterio, Orden orden)
 {
     switch (criterio)
@@ -195,5 +191,38 @@ int Comparar_Canciones_Sort(Cancion a, Cancion b, Tipo_Criterio criterio, Orden 
 
     default:
         return 0;
+    }
+}
+
+void Quick_Sort(Cancion catalogo[], int low, int high, Tipo_Criterio criterio, Orden orden)
+{
+    if (low < high)
+    {
+        //el ultimo elemento es el pivote
+        Cancion pivot = catalogo[high];
+        int i = (low - 1);
+
+        // se comparr cancione ssegun el pivote, menores al pivote al a izq y mayores a la der
+        for (int j = low; j <= high - 1; j++)
+        {
+            if (Comparar_Canciones_Sort(catalogo[j], pivot, criterio, orden) == 0)
+            {
+                i++;
+                Cancion temp = catalogo[i];
+                catalogo[i] = catalogo[j];
+                catalogo[j] = temp;
+            }
+        }
+        
+        //se deja al pivote enmedio
+        Cancion temp = catalogo[i + 1];
+        catalogo[i + 1] = catalogo[high];
+        catalogo[high] = temp;
+        
+        int pi = i + 1; //pos dodne queda el pivote
+
+        //Se llama al a funcion para que ordene a la iz y ala der del pivote
+        Quick_Sort(catalogo, low, pi - 1, criterio, orden);
+        Quick_Sort(catalogo, pi + 1, high, criterio, orden);
     }
 }

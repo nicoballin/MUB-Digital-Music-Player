@@ -8,6 +8,11 @@
 #include <unistd.h>
 
 #define TAMANHO_HISTORIAL 10
+#define MAX_CANCIONES 200
+#define ANHO_MINIMO 1920
+#define ANHO_MAXIMO 2026
+#define DURACION_MIN_SEG 10
+#define DURACION_MAX_SEG 3600
 
 // Criterio para ordenar el catalogo
 typedef enum _tipo_criterio
@@ -53,7 +58,8 @@ void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones);
 void Print_Menu_anhadir_Playlsit();
 void Print_Menu_Reproduccion();
 void Print_Historial(Cancion historial[]);
-
+void Print_Animacion();
+void Limpiar_Pantalla();
 
 int Escoger_Opcion_Menu();
 int Pedir_cantidad_de_Canciones();

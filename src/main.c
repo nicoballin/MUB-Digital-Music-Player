@@ -1,24 +1,82 @@
+/**
+ * @file main.c
+ * @authors Nicolas Balic (nbalic@umagallanes.cl), Tomas Minte (tminte@umagallanes.cl), Daniel Uribe (daniurib@umagallanes.cl).
+ * @brief Main de nuestro Reproducto de Musica 
+ * @version 1.0 Alpha
+ * @date 2026-09-30
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
+
 #include "colores.h"
 #include "algoritmos.h"
 #include "codes_mub.h"
 #include "creacion.h"
-
-
+#include "archivos.h"
 #include <stdio.h>
 
 int main()
 {
     srand(time(NULL));
 
-    int cantidad_de_canciones = Pedir_cantidad_de_Canciones(); //Numero de canciones
-    Cancion Canciones[cantidad_de_canciones]; //Arreglo de Canciones
-    Cancion Playlist[cantidad_de_canciones]; //fila de reproduccion
+    
+    //= Pedir_cantidad_de_Canciones(); //Numero de canciones
+    Cancion* Canciones = (Cancion*)malloc(MAX_CANCIONES * sizeof(Cancion)); //Arreglo de Canciones
+    if (Canciones == NULL) 
+    {
+        fprintf(stderr, "Error: Memoria insuficiente para el catalogo.\n");
+        return 1;
+    }
+    int cantidad_de_canciones = 0;
+    
+    //Primero cargar catalogo si ya existe el CSV
+    if (Archivo_Existe(ARCHIVO_CATALOGO))
+    {
+        printf("\t[Cargando catalogo existente desde '%s' ...]\n", ARCHIVO_CATALOGO);
+        Print_Animacion();
+        sleep(2);
+        cantidad_de_canciones = Cargar_Catalogo_CSV(ARCHIVO_CATALOGO, Canciones, MAX_CANCIONES);
+        printf("Cnatidad de canciones = %d\n", cantidad_de_canciones);
+        if (cantidad_de_canciones <= 0)
+        {
+            printf("\t[Aviso: Archivo '%s' vacio o invalido. Se procedera a generar uno nuevo]\n", ARCHIVO_CATALOGO);
+        }
+        else
+        {
+            printf("\t[Catalogo cargado con exito: %d canciones]\n", cantidad_de_canciones);
+            sleep(1);
+        }
+    }
+
+    //Si no existe catalogo se genera una unica vez
+    if (cantidad_de_canciones <= 0)
+    {
+        cantidad_de_canciones = Pedir_cantidad_de_Canciones();
+        Crear_Canciones(Canciones, cantidad_de_canciones);
+
+        // Mezclar aleatoriamente con fisher-yates antes de guardar
+        Mezclar_Fisher_Yates(Canciones, cantidad_de_canciones);
+
+        // Guardar por primera vez en CSV
+        if (Guardar_Catalogo_CSV(ARCHIVO_CATALOGO, Canciones, cantidad_de_canciones))
+        {
+            Print_Animacion();
+            printf("\t[Catalogo generado y guardado exitosamente en '%s']\n", ARCHIVO_CATALOGO);
+        }
+        else
+        {
+            printf("\t[Error al guardar el catalogo en '%s']\n", ARCHIVO_CATALOGO);
+        }
+        sleep(2);
+    }
+
+    Cancion* Playlist = (Cancion*)malloc(cantidad_de_canciones * sizeof(Cancion)); //fila de reproduccion
     Cancion Historial[TAMANHO_HISTORIAL];
     Inicializar_Playlist(Playlist, cantidad_de_canciones);
     Inicializar_Playlist(Historial, cantidad_de_canciones);
-    Crear_Canciones(Canciones,cantidad_de_canciones);
+    //Crear_Canciones(Canciones,cantidad_de_canciones); ya n se necestia aqui
     int opcion_menu, opcion_criterio, opcion_orden;
-    
     int running = 1;
     
     while(running)
@@ -29,6 +87,20 @@ int main()
 
         switch (opcion_menu)
         {
+        case 0: //salir
+            printf("Ha seleccionado Salir del reproductor de musica\n");
+            printf("\t[Exportando catalogo a '%s' ...]\n", ARCHIVO_CATALOGO);
+            Print_Animacion();
+            if (Exportar_Catalogo_CSV(ARCHIVO_EXPORTADO, Canciones, cantidad_de_canciones))
+                printf("\t" VERDE "[Exito: Catalogo exportado correctamente]\n" RESET);
+            
+            else
+                printf("\t" ROJO "[Error: No se pudo exportar el catalogo]\n" RESET);
+
+            printf("Bye Bye...\n");
+            running = 0;
+            break;
+        
         case 1: 
                 //Mostrar lista de canciones
             Print_Lista_Canciones(Canciones,cantidad_de_canciones);
@@ -162,14 +234,25 @@ int main()
                 }
             }
             break;
+        
+        case 5:
+            printf("\t[Exportando catalogo a '%s' ...]\n", ARCHIVO_EXPORTADO);
+            Print_Animacion();
+            if (Exportar_Catalogo_CSV(ARCHIVO_EXPORTADO, Canciones, cantidad_de_canciones))
+                printf("\t" VERDE "[Exito: Catalogo exportado correctamente]\n" RESET);
+            
+            else
+                printf("\t" ROJO "[Error: No se pudo exportar el catalogo]\n" RESET);
 
+            sleep(2);
+            break;
         default:
             printf("\tIngrese una opción Valida!\n");
             break;
         }
     }
-
-
     Liberar_Memoria_Canciones(Canciones, cantidad_de_canciones);
+    free(Canciones);
+    free(Playlist);
     return 0;
 }

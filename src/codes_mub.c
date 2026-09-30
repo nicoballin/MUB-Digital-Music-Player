@@ -1,10 +1,11 @@
 #include "codes_mub.h"
 #include "algoritmos.h"
+#include "creacion.h"
 #include "colores.h"
 
 void Print_Menu_Inicial() //Funcion para imprimir el menu
 {
-    system("clear");
+    Limpiar_Pantalla();
     printf("\n");
     printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
     printf(ROJO"\t\t M" AZUL"U" CIAN"B" ROJO" - Digital " AZUL"Player " CIAN"Music\n"RESET);
@@ -12,14 +13,15 @@ void Print_Menu_Inicial() //Funcion para imprimir el menu
     printf("\t[2] Menu de Lista de Reproduccion\n");
     printf("\t[3] Ordenar Canciones\n");
     printf("\t[4] Reproducir Canciones\n");
-    printf("\t[0] Salir :(");
+    printf("\t[5] Exportar Catalogo Actualizado\n");
+    printf("\t[0] Salir");
     printf("\n\n");
     printf("Ingrese la opción que desea escoger : ");
 }
 
 void Print_Menu_Criterios_Ordenamiento()
 {
-    system("clear");
+    Limpiar_Pantalla();
     printf("\n");
     printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
     printf("\tHaz Seleccionado: Ordenar Canciones\n\t¿Como desea ordenar las canciones?\n");
@@ -54,9 +56,9 @@ int Pedir_cantidad_de_Canciones() //Funcion que pide mediante scanf un numero en
     printf("\t\t - Creador de Canciones - \n\n");
     printf("Ingrese el numero de canciones que desea generar: \n");
     int cantidad_de_canciones = Escoger_Opcion_Menu();
-    while(cantidad_de_canciones <= 0 || cantidad_de_canciones > 200)
+    while(cantidad_de_canciones < 1 || cantidad_de_canciones > MAX_CANCIONES)
     {
-        printf("\t La cantidad de canciones no puede ser menor a 0 o Mayor a 200\n");
+        printf("\t La cantidad de canciones no puede ser menor a 1 o Mayor a %d\n", MAX_CANCIONES);
         printf("Ingrese nuevamente el Numero de canciones que desea generar: \n");
         cantidad_de_canciones = Escoger_Opcion_Menu();
     }
@@ -65,8 +67,17 @@ int Pedir_cantidad_de_Canciones() //Funcion que pide mediante scanf un numero en
 
 int Escoger_Opcion_Menu() //Funcion utilizadap ara escojer una opcion en el menu
 {
-    int opcion;
-    scanf("%d", &opcion);
+    int opcion = -1;
+    
+    // while scanf no logre leer un numero entero
+    while (scanf("%d", &opcion) != 1)
+    {
+        printf("\tPor favor, ingrese solo numeros: ");
+        
+        // limpia lo de las letras
+        while (getchar() != '\n');
+    }
+
     printf("\n\n");
     return opcion;
 }
@@ -87,7 +98,9 @@ void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones)
         arr[i].anho,
         arr[i].n_reproducciones);
     }
-    sleep(8);
+    printf("\n\tPresione ENTER para volver al menu...");
+    while (getchar() != '\n'); // Limpia buffer anterior
+    getchar();                 // Espera ENTER del usuario
 }
 
 void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_cancioens)
@@ -127,7 +140,7 @@ void Print_Playlist(Cancion arr[], int cantidad_de_canciones)
 
 void Print_Menu_Playlsit()
 {
-    system("clear");
+    Limpiar_Pantalla();
     printf("\n");
     printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
     printf("\t\t Menu de Lista de Reproduccion\n");
@@ -143,7 +156,7 @@ void Print_Menu_Playlsit()
 void Print_Menu_anhadir_Playlsit()
 {
     sleep(2);
-    system("clear");
+    Limpiar_Pantalla();
     printf("\n");
     printf("\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
     printf("\t\t Anhadir Canciones a la Lista de Reproduccion\n");
@@ -157,7 +170,7 @@ void Print_Menu_anhadir_Playlsit()
 
 void Print_Menu_Reproduccion()
 {
-    system("clear");
+    Limpiar_Pantalla();
     printf("\n");
     printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
     printf("\t\t Reproduccion e Historial\n");
@@ -288,4 +301,30 @@ void Print_Historial(Cancion historial[])
             historial[i].n_reproducciones);
     }
     sleep(5);
+}
+
+void Print_Animacion() 
+{
+    //Caracteres animacion
+    int giros = 20;
+    char simbolos[] = {'/', '-', '\\', '|'};
+    
+    // Gira la barrita 20 veces
+    for (int i = 0; i < giros; i++)
+    {
+        // El '\r' regresa al inicio de la línea para sobrescribir el texto anterior
+        printf("\r\tCargando %c", simbolos[i % 4]);
+        fflush(stdout);
+        
+        // Pausa de 100 milisegundos para que se alcance a ver el giro
+        usleep(100000); 
+    }
+    sleep(0.1);
+    //Limpiar terminal
+    printf("\r\t¡Listo!         \n");
+}
+
+void Limpiar_Pantalla()
+{
+    printf("\033[H\033[J"); // Codigo VT100/ANSI para limpiar pantalla jeje
 }

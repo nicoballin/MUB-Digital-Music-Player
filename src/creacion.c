@@ -43,17 +43,16 @@ void Crear_Canciones(Cancion arr[],int cantidad_de_canciones) //Funcion para Cre
                 if(arr[i].artista != NULL) 
                     sprintf(arr[i].artista, "%s", artista_album[album_encontrado]);
 
-                arr[i].anho = anho_album[album_encontrado]; //la cancion toma el año del album
+                arr[i].anho = anho_album[album_encontrado]; //la cancion toma el anho del album
             }
-            else // si es album nuevo se guarda el album + su año + artista
+            else // si es album nuevo se guarda el album + su anho + artista
             {
                 album_existentes[cantidad_albumes] = arr[i].album;
+    
+                // se guarda la referencia deal artista y el año
+                artista_album[cantidad_albumes] = arr[i].artista;
+                anho_album[cantidad_albumes] = arr[i].anho;
                 
-                artista_album[cantidad_albumes] = (char*)malloc(20 * sizeof(char));
-                if(artista_album[cantidad_albumes] != NULL) 
-                    sprintf(artista_album[cantidad_albumes], "%s", arr[i].artista);
-
-                anho_album[cantidad_albumes] = arr[i].anho;//guardamos el año del album
                 cantidad_albumes++;
             }
 
@@ -128,7 +127,7 @@ char* Generar_Album(char* album_existentes[], int cantidad_albumes)
         
         return Album;
     }
-    if(tipo_album < 70 && cantidad_albumes > 0) // Si hay 1 album o mas el 50% de las canciones se añadira al album
+    if(tipo_album < 70 && cantidad_albumes > 0) // Si hay 1 album o mas el 50% de las canciones se anhadira al album
     {
         int album_random = rand() % cantidad_albumes; 
         char* Album = (char*)malloc(30 * sizeof(char)); 

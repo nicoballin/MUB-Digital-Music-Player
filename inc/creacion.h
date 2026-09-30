@@ -7,6 +7,7 @@
 #include <string.h>
 #include <codes_mub.h>
 
+
 void Crear_Canciones(Cancion arr[],int cantidad_de_canciones);
 int Generar_Duracion_Seg();
 int Generar_Anho_Cancion(char* gnro);
