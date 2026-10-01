@@ -1,3 +1,13 @@
+/**
+ * @file colores.h
+ * @author Daniel Uribe (daniurib@umagallanes.cl).
+ * @brief Archivo header para declarar los colores
+ * @version 0.1
+ * @date 2026-09-30
+ * 
+ * @copyright Copyright (c) 2026
+ * 
+ */
 #ifndef COLORES
 #define COLORES
 

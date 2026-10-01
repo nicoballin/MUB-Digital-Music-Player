@@ -1,7 +1,7 @@
 /**
  * @file main.c
  * @authors Nicolas Balic (nbalic@umagallanes.cl), Tomas Minte (tminte@umagallanes.cl), Daniel Uribe (daniurib@umagallanes.cl).
- * @brief Main de nuestro Reproducto de Musica 
+ * @brief Main de nuestro Reproductor de Musica 
  * @version 1.0 Alpha
  * @date 2026-09-30
  * 
@@ -74,8 +74,8 @@ int main()
     Cancion* Playlist = (Cancion*)malloc(cantidad_de_canciones * sizeof(Cancion)); //fila de reproduccion
     Cancion Historial[TAMANHO_HISTORIAL];
     Inicializar_Playlist(Playlist, cantidad_de_canciones);
-    Inicializar_Playlist(Historial, cantidad_de_canciones);
-    //Crear_Canciones(Canciones,cantidad_de_canciones); ya n se necestia aqui
+    Inicializar_Playlist(Historial, TAMANHO_HISTORIAL);
+
     int opcion_menu, opcion_criterio, opcion_orden;
     int running = 1;
     

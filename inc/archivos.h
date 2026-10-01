@@ -1,5 +1,6 @@
 /**
  * @file archivos.h
+ * @author Nicolas Balic (nbalic@umagallanes.cl)
  * @brief archivo para todo lo que es realcionado al csv y fisher yates
  */
 #ifndef ARCHIVOS_H

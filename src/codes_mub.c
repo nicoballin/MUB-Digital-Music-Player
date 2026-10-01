@@ -186,6 +186,14 @@ void Inicializar_Playlist(Cancion arr[], int cantidad_de_canciones)
     for(int i = 0 ; i < cantidad_de_canciones; i++)
     {
         arr[i].id = 0;
+        arr[i].anho = 0;
+        arr[i].duracion_seg = 0;
+        arr[i].n_reproducciones = 0;
+        arr[i].album = "";
+        arr[i].genero = "";
+        arr[i].artista = "";
+        arr[i].nombre = "";
+
     }
 }
 
@@ -216,17 +224,16 @@ void Anhadir_Cancion_ID_Playlist(Cancion canciones[], Cancion Playlist[], int ca
         }
     }
 
-    Cancion aux;
-    aux = canciones[indice_encontrado];
-    //ordenamiento desde el final hasta el comienzo
-    for(int j = cantidad_de_canciones -1; j > 0; j--)
+    for (int j = 0; j < cantidad_de_canciones; j++)
     {
-        Playlist[j] = Playlist[j-1]; //el ultimo copia al penultimo, el penultimo
-                                     //copia al antepenultimo y asi
+        if (Playlist[j].id == 0)
+        {
+            Playlist[j] = canciones[indice_encontrado];
+            printf("Cancion agregada correctamente\n");
+            return;
+        }
     }
-
-    Playlist[0] = aux;
-    printf("Cancion agregada correctamente\n");
+    printf("La fila esta llena\n");
 }
 
 void Aumentar_Reproduccion(Cancion Canciones[],int cantidad_de_canciones,int id_cancion)
@@ -252,9 +259,9 @@ void Agregar_Cancion_Historial(Cancion historial[],Cancion cancion_reproducida)
 
 void Quitar_Primera_Cancion_Playlist(Cancion playlist[],int cantidad_de_canciones)
 {
-    for (int i = 0; i < cantidad_de_canciones; i++)
+    for (int i = 0; i < cantidad_de_canciones - 1; i++)
     {
-        playlist[i] = playlist[i - 1]; 
+        playlist[i] = playlist[i + 1]; 
     }
     playlist[cantidad_de_canciones - 1].id = 0;
 }
