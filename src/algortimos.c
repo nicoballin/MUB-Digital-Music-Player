@@ -226,3 +226,36 @@ void Quick_Sort(Cancion catalogo[], int low, int high, Tipo_Criterio criterio, O
         Quick_Sort(catalogo, pi + 1, high, criterio, orden);
     }
 }
+
+void Top_N_Canciones(Cancion catalogo[], int n, int top)
+{
+    if (top <= 0 || top > n) top = n;
+    
+    //Hago una copia para no alterar el original
+    Cancion* copia = (Cancion*)malloc(n * sizeof(Cancion));
+    if (copia == NULL)
+    {
+        printf("Error: memoria insuficiente para el ranking.\n");
+        return;
+    }
+    memcpy(copia, catalogo, n * sizeof(Cancion));
+
+    // ordenar la copia por reprod de mayor a menor y uso QuickSort
+    Quick_Sort(copia, 0, n - 1, REPRODUCCIONES, DESCENDENTE);
+    printf("\n\t=== TOP %d CANCIONES MAS ESCUCHADAS ===\n", top);
+    printf("\t%-4s | %-18s | %-14s | %-10s | %s\n","#", "Titulo", "Artista", "Genero", "Reproducciones");
+    printf("\t--------------------------------------------------------------\n");
+    for (int i = 0; i < top; i++)
+    {
+        printf("\t%-4d | %-18s | %-14s | %-10s | %d\n",
+               i + 1,
+               copia[i].nombre,
+               copia[i].artista,
+               copia[i].genero,
+               copia[i].n_reproducciones);
+    }
+    
+    //libero la copia
+    free(copia);
+}
+

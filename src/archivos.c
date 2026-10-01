@@ -4,6 +4,8 @@
  * @author Nicolas Balic
  */
 #include "archivos.h"
+#include "colores.h"
+#include "creacion.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,8 +42,12 @@ int Guardar_Catalogo_CSV(const char* nombre_archivo, Cancion arr[], int n)
     //Contenido
     for (i = 0; i < n; i++)
     {
-        fprintf(f, "%d,%s,%s,%s,%s,%d,%d,%d\n",
+        if(Cancion_Es_Valida(&arr[i]))
+        {
+            fprintf(f, "%d,%s,%s,%s,%s,%d,%d,%d\n",
             arr[i].id,arr[i].nombre,arr[i].artista,arr[i].album,arr[i].genero,arr[i].duracion_seg,arr[i].anho,arr[i].n_reproducciones);
+        }
+        
     }
 
     fclose(f);
@@ -91,7 +97,7 @@ int Cargar_Catalogo_CSV(const char* nombre_archivo, Cancion arr[], int max_capac
             &cancion.anho,
             &cancion.n_reproducciones);
 
-        if (resultado == 8)
+        if (resultado == 8 && Cancion_Es_Valida(&cancion))
         {
             arr[cantidad] = cancion;
             cantidad++;
@@ -136,3 +142,51 @@ int Cancion_Es_Valida(const Cancion* c)
     if (c->nombre == NULL || c->artista == NULL || c->album == NULL || c->genero == NULL) return 0;
     return 1;
 }
+
+const char* Seleccionar_Archivo_Catalogo()
+{
+    int existe_base = Archivo_Existe(ARCHIVO_CATALOGO);
+    int existe_actualizado = Archivo_Existe(ARCHIVO_EXPORTADO);
+    
+    // Si existen ambos, dejamos que el usuario elija
+    if (existe_base && existe_actualizado)
+    {
+        printf("\n\t==================================================\n");
+        printf("\t   Se detectaron dos catalogos disponibles:\n");
+        printf("\t   [1] Catalogo Base original ('%s')\n", ARCHIVO_CATALOGO);
+        printf("\t   [2] Catalogo Actualizado ('%s')\n", ARCHIVO_EXPORTADO);
+        printf("\t==================================================\n");
+        printf("\t¿Cual catalogo desea cargar? (1 o 2): ");
+        
+        int opcion = Escoger_Opcion_Menu();
+        if(opcion == 1) return ARCHIVO_CATALOGO;
+        else return ARCHIVO_EXPORTADO;
+    }
+    
+    if (existe_actualizado) return ARCHIVO_EXPORTADO;
+    if (existe_base) return ARCHIVO_CATALOGO;
+    
+    return NULL; // No existe ninguno
+}
+
+int Generar_Catalogo_Inicial(Cancion arr[])
+{
+    printf("\n\t[Generando catalogo nuevo por primera vez...]\n");
+    int cantidad = Pedir_cantidad_de_Canciones();
+    
+    Crear_Canciones(arr, cantidad);
+    Mezclar_Fisher_Yates(arr, cantidad);
+    if (Guardar_Catalogo_CSV(ARCHIVO_CATALOGO, arr, cantidad))
+    {
+        Print_Animacion();
+        printf("\t" VERDE "[Catalogo generado y guardado exitosamente en '%s']\n" RESET, ARCHIVO_CATALOGO);
+        sleep(2);
+        return cantidad;
+    }
+    else
+    {
+        printf("\t" ROJO "[Error al guardar el catalogo en '%s']\n" RESET, ARCHIVO_CATALOGO);
+        return 0;
+    }
+}
+

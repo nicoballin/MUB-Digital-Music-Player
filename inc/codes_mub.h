@@ -72,5 +72,31 @@ void Quitar_Primera_Cancion_Playlist(Cancion playlist[],int cantidad_de_cancione
 void Agregar_Cancion_Historial(Cancion historial[],Cancion cancion_reproducida);
 void Aumentar_Reproduccion(Cancion Canciones[],int cantidad_de_canciones,int id_cancion);
 
+/**
+ * @brief Funcion que enlista aa todos los artistas disponibles del catalogo
+ * 
+ * @param arr 
+ * @param n 
+ */
+void Listar_Artistas_Disponibles(Cancion arr[], int n);
+
+/**
+ * @brief Funcion que resume todas las cancionessegun e genero.
+ * 
+ * @param arr 
+ * @param n 
+ */
+void Resumen_Canciones_Por_Genero(Cancion arr[], int n);
+
+/**
+ * @brief Funcion que Enlista a todas las canciones segun su genero
+ * 
+ * @param arr 
+ * @param n 
+ * @param genero_buscado 
+ */
+void Listar_Canciones_Por_Genero(Cancion arr[], int n, const char* genero_buscado);
+
+void Leer_Texto(char* buffer, int max);
 
 #endif

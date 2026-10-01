@@ -65,5 +65,6 @@ int Comparar_Canciones_Sort(Cancion a, Cancion b, Tipo_Criterio criterio, Orden 
  */
 void Quick_Sort(Cancion catalogo[], int low, int high, Tipo_Criterio criterio, Orden orden);
 
+void Top_N_Canciones(Cancion catalogo[], int n, int top);
 
 #endif

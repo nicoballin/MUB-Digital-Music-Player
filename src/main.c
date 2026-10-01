@@ -28,53 +28,47 @@ int main()
         fprintf(stderr, "Error: Memoria insuficiente para el catalogo.\n");
         return 1;
     }
+
     int cantidad_de_canciones = 0;
+    const char* archivo_seleccionado = Seleccionar_Archivo_Catalogo();
     
-    //Primero cargar catalogo si ya existe el CSV
-    if (Archivo_Existe(ARCHIVO_CATALOGO))
+    if(archivo_seleccionado != NULL)
     {
-        printf("\t[Cargando catalogo existente desde '%s' ...]\n", ARCHIVO_CATALOGO);
+        printf("\t[Cargando catalogo desde '%s' ...]\n", archivo_seleccionado);
         Print_Animacion();
-        sleep(2);
-        cantidad_de_canciones = Cargar_Catalogo_CSV(ARCHIVO_CATALOGO, Canciones, MAX_CANCIONES);
-        printf("Cnatidad de canciones = %d\n", cantidad_de_canciones);
+        cantidad_de_canciones = Cargar_Catalogo_CSV(archivo_seleccionado, Canciones, MAX_CANCIONES);
         if (cantidad_de_canciones <= 0)
         {
-            printf("\t[Aviso: Archivo '%s' vacio o invalido. Se procedera a generar uno nuevo]\n", ARCHIVO_CATALOGO);
+            printf(ROJO "\n\t[ERROR: El archivo '%s' esta vacio o danhado]\n" RESET, archivo_seleccionado);
+            printf("\t¿Desea generar uno nuevo desde cero? (1: Si / 0: Salir): ");
+            if (Escoger_Opcion_Menu() != 1)
+            {
+                free(Canciones);
+                return 1; // Salir sin tocar archivos
+            }
         }
         else
         {
-            printf("\t[Catalogo cargado con exito: %d canciones]\n", cantidad_de_canciones);
+            printf("\t" VERDE "[Catalogo cargado con exito: %d canciones]\n" RESET, cantidad_de_canciones);
             sleep(1);
         }
     }
-
+    
     //Si no existe catalogo se genera una unica vez
     if (cantidad_de_canciones <= 0)
     {
-        cantidad_de_canciones = Pedir_cantidad_de_Canciones();
-        Crear_Canciones(Canciones, cantidad_de_canciones);
-
-        // Mezclar aleatoriamente con fisher-yates antes de guardar
-        Mezclar_Fisher_Yates(Canciones, cantidad_de_canciones);
-
-        // Guardar por primera vez en CSV
-        if (Guardar_Catalogo_CSV(ARCHIVO_CATALOGO, Canciones, cantidad_de_canciones))
+        cantidad_de_canciones = Generar_Catalogo_Inicial(Canciones);
+        if (cantidad_de_canciones <= 0)
         {
-            Print_Animacion();
-            printf("\t[Catalogo generado y guardado exitosamente en '%s']\n", ARCHIVO_CATALOGO);
+            free(Canciones);
+            return 1;
         }
-        else
-        {
-            printf("\t[Error al guardar el catalogo en '%s']\n", ARCHIVO_CATALOGO);
-        }
-        sleep(2);
     }
 
     Cancion* Playlist = (Cancion*)malloc(cantidad_de_canciones * sizeof(Cancion)); //fila de reproduccion
     Cancion Historial[TAMANHO_HISTORIAL];
     Inicializar_Playlist(Playlist, cantidad_de_canciones);
-    Inicializar_Playlist(Historial, cantidad_de_canciones);
+    Inicializar_Playlist(Historial, TAMANHO_HISTORIAL);
     //Crear_Canciones(Canciones,cantidad_de_canciones); ya n se necestia aqui
     int opcion_menu, opcion_criterio, opcion_orden;
     int running = 1;
@@ -87,7 +81,8 @@ int main()
 
         switch (opcion_menu)
         {
-        case 0: //salir
+        case 0: 
+        {//salir
             printf("Ha seleccionado Salir del reproductor de musica\n");
             printf("\t[Exportando catalogo a '%s' ...]\n", ARCHIVO_CATALOGO);
             Print_Animacion();
@@ -100,14 +95,16 @@ int main()
             printf("Bye Bye...\n");
             running = 0;
             break;
+        }
         
-        case 1: 
-                //Mostrar lista de canciones
+        case 1://Mostrar lista de canciones
+        {
             Print_Lista_Canciones(Canciones,cantidad_de_canciones);
             break;
+        }
 
-        
-        case 2: //Playlist / reproduccion
+        case 2://Playlist / reproduccion
+        {
             int running_playlist = 1;
             int opcion_menu_playlist;
             while (running_playlist)
@@ -160,9 +157,11 @@ int main()
                 }
             }
             break;
+        }
 
-        case 3:
-            //Imprimir menyu de ordenamiento
+        case 3://Imprimir menyu de ordenamiento
+        {
+            
             Print_Menu_Criterios_Ordenamiento();
             opcion_criterio = Escoger_Opcion_Menu() - 1;
             if(opcion_criterio < 0) break;
@@ -205,12 +204,21 @@ int main()
             if(opcion_orden < 0)
                 break;
 
-            Bubble_Sort(Canciones, cantidad_de_canciones, opcion_criterio, opcion_orden);
+            printf("\t¿Que algoritmo desea usar para ordenar?\n");
+            printf("\t[1] Bubble Sort (iterativo)\n");
+            printf("\t[2] Quick Sort  (recursivo)\n");
+            printf("\tOpcion: ");
+            int opcion_algo = Escoger_Opcion_Menu();
+            if (opcion_algo == 2)
+                Quick_Sort(Canciones, 0, cantidad_de_canciones - 1, opcion_criterio, opcion_orden);
+            else
+                Bubble_Sort(Canciones, cantidad_de_canciones, opcion_criterio, opcion_orden);
             Print_Lista_Canciones(Canciones, cantidad_de_canciones);
-
             break;
+        }
         
-        case 4: //HISTORIAL DE REPRODUCCIÓN
+        case 4://HISTORIAL DE REPRODUCCIÓN
+        {
             int running_reproduccion = 1;
             int opcion_menu_reproduccion;
             while(running_reproduccion)
@@ -234,8 +242,10 @@ int main()
                 }
             }
             break;
+        }
         
-        case 5:
+        case 5://Exportar
+        {
             printf("\t[Exportando catalogo a '%s' ...]\n", ARCHIVO_EXPORTADO);
             Print_Animacion();
             if (Exportar_Catalogo_CSV(ARCHIVO_EXPORTADO, Canciones, cantidad_de_canciones))
@@ -246,6 +256,46 @@ int main()
 
             sleep(2);
             break;
+        }
+
+        case 6: // Artistas y generos
+        {
+            printf("\n\t[1] Listar todos los artistas disponibles\n");
+            printf("\t[2] Ver cantidad de canciones por cada genero\n");
+            printf("\t[3] Listar canciones de un genero especifico\n");
+            printf("\t[4] Top N canciones mas escuchadas\n");
+            printf("\tOpcion: ");
+            int op_genero = Escoger_Opcion_Menu();
+            if (op_genero == 1)
+            {
+                Listar_Artistas_Disponibles(Canciones, cantidad_de_canciones);
+            }
+            else if (op_genero == 2)
+            {
+                Resumen_Canciones_Por_Genero(Canciones, cantidad_de_canciones);
+            }
+            else if (op_genero == 3)
+            {
+                char genero[50];
+                printf("Ingrese el genero musical (ej: Rock, Pop, Jazz): ");
+                Leer_Texto(genero, 50);
+                Listar_Canciones_Por_Genero(Canciones, cantidad_de_canciones, genero);
+            }
+            else if(op_genero == 4)
+            {
+                printf("\tIngrese el valor de N para el ranking: ");
+                int top_n = Escoger_Opcion_Menu();
+                Top_N_Canciones(Canciones, cantidad_de_canciones, top_n);
+            }
+            break;
+        }
+        
+        case 7: //Busqueda de Canciones
+        {
+            printf("\n\t" CIAN "=== BUSQUEDA DE CANCIONES ===" RESET "\n");
+            break;
+        }
+
         default:
             printf("\tIngrese una opción Valida!\n");
             break;

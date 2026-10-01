@@ -14,6 +14,7 @@ void Print_Menu_Inicial() //Funcion para imprimir el menu
     printf("\t[3] Ordenar Canciones\n");
     printf("\t[4] Reproducir Canciones\n");
     printf("\t[5] Exportar Catalogo Actualizado\n");
+    printf("\t[6] Consultar Artistas y Generos\n");
     printf("\t[0] Salir");
     printf("\n\n");
     printf("Ingrese la opción que desea escoger : ");
@@ -326,5 +327,97 @@ void Print_Animacion()
 
 void Limpiar_Pantalla()
 {
-    printf("\033[H\033[J"); // Codigo VT100/ANSI para limpiar pantalla jeje
+    printf("\033[H\033[J"RESET); // Codigo VT100/ANSI para limpiar pantalla jeje
+}
+
+void Listar_Artistas_Disponibles(Cancion arr[], int n)
+{
+    printf("\n\t" CIAN "=== ARTISTAS DISPONIBLES EN EL CATALOGO ===" RESET "\n");
+    int total_unicos = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        int ya_mostrado = 0;
+        // Comprobamos si este artista ya aparece antes en el arreglo de canciones
+        for (int j = 0; j < i; j++)
+        {
+            if (strcmp(arr[i].artista, arr[j].artista) == 0)
+            {
+                ya_mostrado = 1;
+                break;
+            }
+        }
+        if (!ya_mostrado)
+        {
+            total_unicos++;
+            printf("\t[%2d] %s\n", total_unicos, arr[i].artista);
+        }
+    }
+    printf("\t--------------------------------------------\n");
+    printf("\tTotal de artistas unicos: %d\n\n", total_unicos);
+}
+
+void Resumen_Canciones_Por_Genero(Cancion arr[], int n)
+{
+    const char* generos_conocidos[] = {"Rock", "Pop", "Hip Hop", "Jazz", "Regueton", "Funk", "Trap", "Dubstep"};
+    int total_generos = 8;
+    //arreglo de contadores para cada genero, tryhard
+    int conteos[8] = {0};
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int g = 0; g < total_generos; g++)
+        {
+            if (strcasecmp(arr[i].genero, generos_conocidos[g]) == 0)
+            {
+                conteos[g]++;
+                break;
+            }
+        }
+    }
+
+    printf("\n\t" AZUL "=== CANTIDAD DE CANCIONES POR GENERO ===" RESET "\n");
+    for (int g = 0; g < total_generos; g++)
+    {
+        printf("\t%-12s: %4d canciones\n", generos_conocidos[g], conteos[g]);
+    }
+    printf("\t----------------------------------------\n");
+}
+
+void Listar_Canciones_Por_Genero(Cancion arr[], int n, const char* genero_buscado)
+{
+    int encontradas = 0;
+    printf("\n\tCanciones del genero '%s':\n", genero_buscado);
+    printf("\t-------------------------------------------------------------------------------------------------------------------------\n");
+    for (int i = 0; i < n; i++)
+    {
+        if (strcasecmp(arr[i].genero, genero_buscado) == 0)
+        {
+            printf("\tID: %-3d | %-18s | %-14s | %-24s | %2dm %02ds | %-4d | %-8d |\n",
+                   arr[i].id, arr[i].nombre, arr[i].artista, arr[i].album,
+                   arr[i].duracion_seg/60, arr[i].duracion_seg%60, arr[i].anho, arr[i].n_reproducciones);
+            encontradas++;
+        }
+    }
+    if (encontradas == 0)
+    {
+        printf("\t" ROJO "No se encontraron canciones para el genero '%s'\n" RESET, genero_buscado);
+    }
+    else
+    {
+        printf("\tTotal de canciones del genero '%s': %d\n", genero_buscado, encontradas);
+    }
+}
+
+void Leer_Texto(char* buffer, int max)
+{
+    // Limpiar buffer para leer texto
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+    
+    if (fgets(buffer, max, stdin) != NULL)
+    {
+        //Quita el \n
+        buffer[strcspn(buffer, "\n")] = '\0';
+    }
 }

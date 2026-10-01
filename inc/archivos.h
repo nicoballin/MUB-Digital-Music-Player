@@ -63,4 +63,16 @@ int Archivo_Existe(const char* nombre_archivo);
  */
 int Cancion_Es_Valida(const Cancion* c);
 
+/**
+ * @brief Determina que archivo CSV cargar segun su existencia y la eleccion del usuario.
+ * @return La ruta del archivo a cargar o NULL si no existe ningun catalogo previo.
+ */
+const char* Seleccionar_Archivo_Catalogo();
+
+/**
+ * @brief Genera un catalogo aleatorio nuevo, lo mezcla con Fisher-Yates y lo guarda.
+ * @return Cantidad de canciones generadas o 0 si ocurrio un error al guardar.
+ */
+int Generar_Catalogo_Inicial(Cancion arr[]);
+
 #endif
