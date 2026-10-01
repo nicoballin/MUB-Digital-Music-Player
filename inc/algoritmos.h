@@ -1,5 +1,6 @@
 /**
  * @file algoritmos.h
+ * @authors Nicolas Balic (nbalic@umagallanes.cl), Daniel Uribe (daniurib@umagallanes.cl).
  * @brief Archivo Header para definir los algoritmos de busqueda y ordenamiento que utilizamos
  */
 #ifndef ALGORITMO

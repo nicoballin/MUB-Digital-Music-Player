@@ -1,7 +1,7 @@
 #include "codes_mub.h"
 #include "algoritmos.h"
 #include "creacion.h"
-#include "colores.h"
+#include "print.h"
 
 void Print_Menu_Inicial() //Funcion para imprimir el menu
 {
@@ -83,27 +83,6 @@ int Escoger_Opcion_Menu() //Funcion utilizadap ara escojer una opcion en el menu
     return opcion;
 }
 
-void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones)
-{
-    printf("\n\t%-7s | %-18s | %-14s | %-24s | %-10s | %s | %-4s | %-8s |\n", "ID", "Titulo", "Artista", "Album", "Genero", "Duracion", "Anho", "Reprod.");
-    printf("\t-------------------------------------------------------------------------------------------------------------------------\n");
-    for(int i = 0 ; i < cantidad_de_canciones; i++)
-    {
-        printf("\tID: %-3d | %-18s | %-14s | %-24s | %-10s | %2dm %02ds | %-4d | %-8d |\n",
-        arr[i].id,
-        arr[i].nombre, 
-        arr[i].artista,
-        arr[i].album,
-        arr[i].genero,
-        arr[i].duracion_seg/60, arr[i].duracion_seg%60, 
-        arr[i].anho,
-        arr[i].n_reproducciones);
-    }
-    printf("\n\tPresione ENTER para volver al menu...");
-    while (getchar() != '\n'); // Limpia buffer anterior
-    getchar();                 // Espera ENTER del usuario
-}
-
 void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_cancioens)
 {
     for(int i = 0; i < cantidad_de_cancioens; i++)
@@ -154,39 +133,19 @@ void Print_Menu_Playlsit()
     printf("Ingrese la opción que desea escoger : ");
 }
 
-void Print_Menu_anhadir_Playlsit()
-{
-    sleep(2);
-    Limpiar_Pantalla();
-    printf("\n");
-    printf("\t- - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
-    printf("\t\t Anhadir Canciones a la Lista de Reproduccion\n");
-    printf("\t[1] Ver Lista de Canciones\n");
-    printf("\t[2] Anhadir por ID\n");
-    printf("\t[3] Anhadir por Nombre\n");
-    printf("\t[0] Volver a Menu de Lista de Reproduccion ");
-    printf("\n\n");
-    printf("Ingrese la opción que desea escoger : ");
-}
-
-void Print_Menu_Reproduccion()
-{
-    Limpiar_Pantalla();
-    printf("\n");
-    printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
-    printf("\t\t Reproduccion e Historial\n");
-    printf("\t[1] Reproducir Cancion (primera de la fila)\n");
-    printf("\t[2] Ver Historial de Reproduccion\n");
-    printf("\t[0] Volver al Menu Principal");
-    printf("\n\n");
-    printf("Ingrese la opción que desea escoger : ");
-}
-
 void Inicializar_Playlist(Cancion arr[], int cantidad_de_canciones)
 {
     for(int i = 0 ; i < cantidad_de_canciones; i++)
     {
         arr[i].id = 0;
+        arr[i].anho = 0;
+        arr[i].duracion_seg = 0;
+        arr[i].n_reproducciones = 0;
+        arr[i].album = "";
+        arr[i].genero = "";
+        arr[i].artista = "";
+        arr[i].nombre = "";
+
     }
 }
 
@@ -217,17 +176,16 @@ void Anhadir_Cancion_ID_Playlist(Cancion canciones[], Cancion Playlist[], int ca
         }
     }
 
-    Cancion aux;
-    aux = canciones[indice_encontrado];
-    //ordenamiento desde el final hasta el comienzo
-    for(int j = cantidad_de_canciones -1; j > 0; j--)
+    for (int j = 0; j < cantidad_de_canciones; j++)
     {
-        Playlist[j] = Playlist[j-1]; //el ultimo copia al penultimo, el penultimo
-                                     //copia al antepenultimo y asi
+        if (Playlist[j].id == 0)
+        {
+            Playlist[j] = canciones[indice_encontrado];
+            printf("Cancion agregada correctamente\n");
+            return;
+        }
     }
-
-    Playlist[0] = aux;
-    printf("Cancion agregada correctamente\n");
+    printf("La fila esta llena\n");
 }
 
 void Aumentar_Reproduccion(Cancion Canciones[],int cantidad_de_canciones,int id_cancion)
@@ -253,9 +211,9 @@ void Agregar_Cancion_Historial(Cancion historial[],Cancion cancion_reproducida)
 
 void Quitar_Primera_Cancion_Playlist(Cancion playlist[],int cantidad_de_canciones)
 {
-    for (int i = 0; i < cantidad_de_canciones; i++)
+    for (int i = 0; i < cantidad_de_canciones - 1; i++)
     {
-        playlist[i] = playlist[i - 1]; 
+        playlist[i] = playlist[i + 1]; 
     }
     playlist[cantidad_de_canciones - 1].id = 0;
 }
@@ -302,6 +260,91 @@ void Print_Historial(Cancion historial[])
             historial[i].n_reproducciones);
     }
     sleep(5);
+}
+
+void Quitar_Cancion_ID_Playlist(Cancion playlist[], int cantidad_de_canciones, int id_cancion)
+{
+    int posicion = -1;
+
+    if( id_cancion <= 0 )
+    {
+        printf("\tLa id debe ser un numero mayor a 0");
+        return;
+    }
+
+    for(int i = 0 ; i < cantidad_de_canciones ; i++)
+    {
+        if(playlist[i].id == id_cancion)
+        {
+            posicion = i;
+            break;
+        }
+    }
+
+    if(posicion == -1)
+    {
+        printf("\t La cancion con ID %d no esta en la playlist\n", id_cancion);
+        return;
+    }
+
+    for (int i = posicion ; i < cantidad_de_canciones - 1; i++)
+        playlist[i] = playlist[i+1];
+    playlist[cantidad_de_canciones-1].id  = 0;
+
+    printf("\t Cancion con ID %d quitada de la fila\n", id_cancion);
+    return;
+}
+
+int Contar_Canciones_Playlist(Cancion playlist[], int cantidad_de_canciones)
+{
+    int total = 0;
+    for (int i = 0; i < cantidad_de_canciones; i++)
+    {
+        if (playlist[i].id != 0)
+            total++;
+    }
+    return total;
+}
+
+void Quitar_Cancion_Posicion_Playlist(Cancion playlist[], int cantidad_de_canciones, int posicion)
+{
+    int total = Contar_Canciones_Playlist(playlist, cantidad_de_canciones);
+
+    if (total == 0)
+    {
+        printf("\tLa fila de reproduccion esta vacia\n");
+        return;
+    }
+
+    if (posicion < 1 || posicion > total)
+    {
+        printf("\tPosicion invalida. Debe estar entre 1 y %d\n", total);
+        return;
+    }
+
+    int indice = posicion - 1; 
+
+    // Desplazar a la izquierda las canciones posteriores
+    for (int i = indice; i < cantidad_de_canciones - 1; i++)
+    {
+        playlist[i] = playlist[i + 1];
+    }
+    playlist[cantidad_de_canciones - 1].id = 0;
+
+    printf("\tCancion en la posicion %d quitada de la fila\n", posicion);
+}
+
+
+void Vaciar_Playlist(Cancion playlist[], int cantidad_de_canciones)
+{
+    if (Contar_Canciones_Playlist(playlist, cantidad_de_canciones) == 0)
+    {
+        printf("\tLa fila de reproduccion ya estaba vacia\n");
+        return;
+    }
+
+    Inicializar_Playlist(playlist, cantidad_de_canciones);
+    printf("\tFila de reproduccion vaciada correctamente\n");
 }
 
 void Print_Animacion() 
