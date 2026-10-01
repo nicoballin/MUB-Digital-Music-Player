@@ -1,6 +1,6 @@
 #include "print.h"
+#include "codes_mub.h"
 
-// ---------- Helpers de estilo Y2K ----------
 
 /** @brief Imprime un titulo con marco estilo Y2K. */
 void Print_Titulo(const char* titulo)
@@ -24,7 +24,7 @@ void Print_Prompt()
 }
 
 
-
+//funciones
 
 void Print_Menu_Inicial() //Funcion para imprimir el menu
 {
@@ -63,5 +63,66 @@ void Print_Opciones_Orden()
     Print_Opcion(1, "Ascendente (Menor a Mayor / A-Z)");
     Print_Opcion(2, "Descendente (Mayor a menor / Z-A)");
     Print_Opcion(0, "Volver al menu de Opciones");
+    Print_Prompt();
+}
+
+void Print_Lista_Canciones(Cancion arr[], int cantidad_de_canciones)
+{
+    printf("\n\t" NEGRITA CIAN_NEON "%-7s | %-18s | %-14s | %-24s | %-10s | %s | %-4s | %-8s |" RESET "\n",
+           "ID", "Titulo", "Artista", "Album", "Genero", "Duracion", "Anho", "Reprod.");
+    printf("\t" ROSA_CHICLE "-------------------------------------------------------------------------------------------------------------------------" RESET "\n");
+    for (int i = 0; i < cantidad_de_canciones; i++)
+    {
+        const char* color_fila = (i % 2 == 0) ? PLATA : LILA;
+        printf("\t%sID: %-3d | %-18s | %-14s | %-24s | %-10s | %2dm %02ds | %-4d | %-8d |" RESET "\n",
+               color_fila,
+               arr[i].id,
+               arr[i].nombre,
+               arr[i].artista,
+               arr[i].album,
+               arr[i].genero,
+               arr[i].duracion_seg / 60, arr[i].duracion_seg % 60,
+               arr[i].anho,
+               arr[i].n_reproducciones);
+    }
+    printf("\n\t" GRIS "Presione " ROSA_CHICLE "ENTER" GRIS " para volver al menu..." RESET);
+    while (getchar() != '\n'); // Limpia buffer anterior
+    getchar();                 // Espera ENTER del usuario
+}
+
+void Print_Menu_Quitar_Playlist()
+{
+    Limpiar_Pantalla();
+    Print_Titulo("Quitar Canciones de la Fila");
+    printf("\n");
+    Print_Opcion(1, "Ver Lista de Reproduccion");
+    Print_Opcion(2, "Quitar por ID");
+    Print_Opcion(3, "Quitar por Posicion");
+    Print_Opcion(4, "Vaciar toda la fila");
+    Print_Opcion(0, "Volver al Menu de Lista de Reproduccion");
+    Print_Prompt();
+}
+
+void Print_Menu_Reproduccion()
+{
+    Limpiar_Pantalla();
+    Print_Titulo("Reproduccion e Historial");
+    printf("\n");
+    Print_Opcion(1, "Reproducir Cancion (primera de la fila)");
+    Print_Opcion(2, "Ver Historial de Reproduccion");
+    Print_Opcion(0, "Volver al Menu Principal");
+    Print_Prompt();
+}
+
+void Print_Menu_anhadir_Playlsit()
+{
+    sleep(2);
+    Limpiar_Pantalla();
+    Print_Titulo("Anhadir Canciones a la Fila");
+    printf("\n");
+    Print_Opcion(1, "Ver Lista de Canciones");
+    Print_Opcion(2, "Anhadir por ID");
+    Print_Opcion(3, "Anhadir por Nombre");
+    Print_Opcion(0, "Volver a Menu de Lista de Reproduccion");
     Print_Prompt();
 }

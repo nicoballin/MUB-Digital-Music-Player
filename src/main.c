@@ -9,11 +9,12 @@
  * 
  */
 
-#include "colores.h"
+#include "print.h"
 #include "algoritmos.h"
 #include "codes_mub.h"
 #include "creacion.h"
 #include "archivos.h"
+
 #include <stdio.h>
 
 int main()
@@ -141,6 +142,9 @@ int main()
                             id_cancion = Escoger_Opcion_Menu();
                             Anhadir_Cancion_ID_Playlist(Canciones, Playlist, cantidad_de_canciones, id_cancion);
                             break;
+                        case 3:
+                                //anhadir por nombre , nose si sea necesario,
+                            break;
                         case 0:
                             opcion_anhadir_playlist = 0;
                             break;
@@ -149,7 +153,48 @@ int main()
                         }
                     }
                     break;
-                case 4:
+                case 4: //QUITAR CANCIONES DE LA PLAYLISTTT
+                    int running_quitar = 1;
+                    int opcion_quitar;
+                    while(running_quitar)
+                    {
+                        Print_Menu_Quitar_Playlist();
+                        opcion_quitar = Escoger_Opcion_Menu();
+                        switch (opcion_quitar)
+                        {
+                        case 1:
+                            Print_Playlist(Playlist,cantidad_de_canciones);
+                            break;
+                        case 2:
+                            int id_quitar ;
+                            printf("Ingrese la ID de la cancion a quitar : ");
+                            id_quitar = Escoger_Opcion_Menu();
+                            Quitar_Cancion_ID_Playlist(Playlist,cantidad_de_canciones,id_quitar);
+                            sleep(1);
+
+                            break;
+                        case 3:
+                            int posicion_quitar;
+                            printf("Ingrese la posicion de la cancion que desea quitar : ");
+                            posicion_quitar = Escoger_Opcion_Menu();
+                            Quitar_Cancion_Posicion_Playlist(Playlist,cantidad_de_canciones,posicion_quitar);
+                            sleep(1);
+                            break;
+                        case 4:
+                            Vaciar_Playlist(Playlist,cantidad_de_canciones);
+                            sleep(2);
+                            break;
+                        case 0:
+                            
+                            running_quitar = 0;
+                            break;
+
+                        default:
+                            printf("Ingrese una opcion valida! \n");
+                            sleep(2);
+                            break;
+                        }
+                    }
                     break;
                 case 0:
                     running_playlist = 0;

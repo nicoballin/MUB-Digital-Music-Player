@@ -8,9 +8,10 @@
  * @copyright Copyright (c) 2026
  * 
  */
-#ifndef COLORES
-#define COLORES
+#ifndef PRINT
+#define PRINT
 
+#include "codes_mub.h"
 #include <stdio.h>
 
 // Colores basicos (los originales)
@@ -53,7 +54,18 @@
 void Print_Titulo(const char* titulo);
 void Print_Opcion(int numero, const char* texto);
 void Print_Prompt();
+
+
+void Print_Menu_Inicial();
+void Print_Menu_Criterios_Ordenamiento();
+void Print_Opciones_Orden();
+void Print_Menu_Playlsit();
+void Print_Playlist(Cancion arr[], int cantidad_de_canciones);
+void Print_Menu_anhadir_Playlsit();
+void Print_Menu_Reproduccion();
+void Print_Historial(Cancion historial[]);
 void Print_Menu_Quitar_Playlist();
+void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones);
 
 
 #endif

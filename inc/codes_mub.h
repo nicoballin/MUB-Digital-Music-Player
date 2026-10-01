@@ -60,15 +60,6 @@ typedef struct _cancion
 }Cancion;
 
 //aca definamos los algoritmos que usaremos 
-void Print_Menu_Inicial();
-void Print_Menu_Criterios_Ordenamiento();
-void Print_Opciones_Orden();
-void Print_Menu_Playlsit();
-void Print_Playlist(Cancion arr[], int cantidad_de_canciones);
-void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones);
-void Print_Menu_anhadir_Playlsit();
-void Print_Menu_Reproduccion();
-void Print_Historial(Cancion historial[]);
 void Print_Animacion();
 void Limpiar_Pantalla();
 
@@ -100,6 +91,10 @@ void Reproducir_Cancion(Cancion canciones[],Cancion playlist[], Cancion historia
 void Quitar_Primera_Cancion_Playlist(Cancion playlist[],int cantidad_de_canciones);
 void Agregar_Cancion_Historial(Cancion historial[],Cancion cancion_reproducida);
 void Aumentar_Reproduccion(Cancion Canciones[],int cantidad_de_canciones,int id_cancion);
+void Quitar_Cancion_ID_Playlist(Cancion playlist[], int cantidad_de_canciones, int id_cancion);
+int Contar_Canciones_Playlist(Cancion playlist[], int cantidad_de_canciones);
+void Quitar_Cancion_Posicion_Playlist(Cancion playlist[], int cantidad_de_canciones, int posicion);
+void Vaciar_Playlist(Cancion playlist[], int cantidad_de_canciones);
 
 
 #endif

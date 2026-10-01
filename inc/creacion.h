@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <codes_mub.h>
+#include "codes_mub.h"
 
 
 void Crear_Canciones(Cancion arr[],int cantidad_de_canciones);
