@@ -3,55 +3,6 @@
 #include "creacion.h"
 #include "print.h"
 
-void Print_Menu_Inicial() //Funcion para imprimir el menu
-{
-    Limpiar_Pantalla();
-    printf("\n");
-    printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
-    printf(ROJO"\t\t M" AZUL"U" CIAN"B" ROJO" - Digital " AZUL"Player " CIAN"Music\n"RESET);
-    printf("\t[1] Lista de Canciones\n");
-    printf("\t[2] Menu de Lista de Reproduccion\n");
-    printf("\t[3] Ordenar Canciones\n");
-    printf("\t[4] Reproducir Canciones\n");
-    printf("\t[5] Exportar Catalogo Actualizado\n");
-    printf("\t[6] Consultar Artistas y Generos\n");
-    printf("\t[0] Salir");
-    printf("\n\n");
-    printf("Ingrese la opción que desea escoger : ");
-}
-
-void Print_Menu_Criterios_Ordenamiento()
-{
-    Limpiar_Pantalla();
-    printf("\n");
-    printf("\t- - - - - - - - - - - - - - - - - - - - - -\n");
-    printf("\tHaz Seleccionado: Ordenar Canciones\n\t¿Como desea ordenar las canciones?\n");
-    printf("\t[1] Por ID\n");
-    printf("\t[2] Por Titulo\n");
-    printf("\t[3] Por Artista\n");
-    printf("\t[4] Por Album\n");
-    printf("\t[5] Por Genero\n");
-    printf("\t[6] Por Duracion\n");
-    printf("\t[7] Por Anho\n");
-    printf("\t[8] Por Numero de Reproducciones\n");
-    printf("\t[0] Volver al Menu Incial");
-    printf("\n\n");
-    printf("Ingrese la opción que desea escoger : ");
-    return;
-}
-
-void Print_Opciones_Orden()
-{
-    printf("\t¿De que manera desea ordenar las canciones?\n");
-    printf("\t[1] Ascendente (Menor a Mayor / A-Z)\n");
-    printf("\t[2] Descendente (MAyor a menor / Z-A)\n");
-    printf("\t[0] Volver al menu de Opciones.");
-    printf("\n\n");
-    printf("Ingrese la opcion que desea escoger : ");
-    
-    return;
-}
-
 int Pedir_cantidad_de_Canciones() //Funcion que pide mediante scanf un numero entero de canciones a generar
 {
     printf("\t\t - Creador de Canciones - \n\n");

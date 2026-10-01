@@ -4,7 +4,7 @@
  * @author Nicolas Balic
  */
 #include "archivos.h"
-#include "colores.h"
+#include "print.h"
 #include "creacion.h"
 #include <stdio.h>
 #include <stdlib.h>
