@@ -1,4 +1,5 @@
 #include "algoritmos.h"
+#include "print.h"
 
 int Binary_Search (Cancion arr[], int low, int high, Cancion target, Tipo_Criterio criterio)
 {
@@ -235,27 +236,62 @@ void Top_N_Canciones(Cancion catalogo[], int n, int top)
     Cancion* copia = (Cancion*)malloc(n * sizeof(Cancion));
     if (copia == NULL)
     {
-        printf("Error: memoria insuficiente para el ranking.\n");
+        printf(ROJO"Error: memoria insuficiente para el ranking.\n"RESET);
         return;
     }
     memcpy(copia, catalogo, n * sizeof(Cancion));
 
-    // ordenar la copia por reprod de mayor a menor y uso QuickSort
-    Quick_Sort(copia, 0, n - 1, REPRODUCCIONES, DESCENDENTE);
-    printf("\n\t=== TOP %d CANCIONES MAS ESCUCHADAS ===\n", top);
-    printf("\t%-4s | %-18s | %-14s | %-10s | %s\n","#", "Titulo", "Artista", "Genero", "Reproducciones");
-    printf("\t--------------------------------------------------------------\n");
-    for (int i = 0; i < top; i++)
-    {
-        printf("\t%-4d | %-18s | %-14s | %-10s | %d\n",
-               i + 1,
-               copia[i].nombre,
-               copia[i].artista,
-               copia[i].genero,
-               copia[i].n_reproducciones);
-    }
+    // ordenar la copia por reprod de mayor a menor y uso Bubble
+    Bubble_Sort(copia, n, REPRODUCCIONES, DESCENDENTE);
+    Print_Animacion_Custom("Ordenando Canciones mediante Bubble Sort");
+    sleep(1);
+    printf(CIAN_NEON"\n\t\t\t\t=== "RESET ROSA_CHICLE"TOP %d "RESET CIAN_NEON"CANCIONES "RESET ROSA_CHICLE"MAS "RESET CIAN_NEON"ESCUCHADAS ===\n"RESET, top);
+    Print_Lista_Canciones(copia, top);
     
     //libero la copia
     free(copia);
+}
+
+void Buscar_Y_Mostrar_Coincidencias(Cancion catalogo[], int cantidad_de_canciones, int pos, Cancion target, Tipo_Criterio criterio)
+{
+    if (pos == -1)
+    {
+        printf(ROJO_NEON"\t[ERROR]: "RESET);
+        printf("No se encontraron coincidencias en el catalogo\n");
+        return;
+    }
+
+    int encontradas = 0;
+    printf(VERDE"\t[¡Coincidencia(s) encontrada(s)!]\n"RESET);
+    printf("\t-------------------------------------------------------------------------------------------------------------------------\n");
+
+    // Expandir haci ala izq desde pos
+    int i = pos;
+    while (i >= 0 && Comparar_Canciones_Search(catalogo[i], target, criterio) == 0)
+    {
+        i--;
+    }
+    int inicio = i + 1; // es el primer indice valido con el mismo valor
+
+    //Buscar a la derecha desde el pos
+    i = pos;
+    while (i < cantidad_de_canciones && Comparar_Canciones_Search(catalogo[i], target, criterio) == 0)
+    {
+        i++;
+    }
+    int fin = i - 1; // ultimo indice que es valido y tiene el mismo valor
+
+    //Mostrar todas las canconesnecontradas con el mismo rango
+    for (int j = inicio; j <= fin; j++)
+    {
+        printf("\tID: %-3d | %-18s | %-14s | %-24s | %2dm %02ds | %-4d | %-8d |\n",
+               catalogo[j].id, catalogo[j].nombre, catalogo[j].artista, catalogo[j].album,
+               catalogo[j].duracion_seg/60, catalogo[j].duracion_seg%60, catalogo[j].anho, catalogo[j].n_reproducciones);
+        encontradas++;
+    }
+    
+    printf("\t-------------------------------------------------------------------------------------------------------------------------\n");
+    printf(VERDE"\tTotal de canciones encontradas: "RESET ROSA_CHICLE"%d\n"RESET, encontradas);
+
 }
 

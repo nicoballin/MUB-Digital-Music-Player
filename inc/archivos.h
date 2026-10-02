@@ -15,7 +15,7 @@
 #define ARCHIVO_EXPORTADO "build/catalogo_actualizado.csv"
 
 /**
- * @brief Mezcla aleatoriamente el arreglo de canciones utilizando el algoritmo fisher yates
+ * @brief Mezcla aleatoriamente el arreglo de canciones
  * @param arr Arreglo de canciones a mezclar
  * @param n Cantidad de canciones en el arreglo
  */

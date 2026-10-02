@@ -32,7 +32,7 @@ int Guardar_Catalogo_CSV(const char* nombre_archivo, Cancion arr[], int n)
     FILE* f = fopen(nombre_archivo, "w");
     if (f == NULL)
     {
-        printf("Error al abrir archivo para guardar catalogo\n");
+        printf(ROJO"Error al abrir archivo para guardar catalogo\n"RESET);
         return 0;
     }
 
@@ -77,6 +77,7 @@ int Cargar_Catalogo_CSV(const char* nombre_archivo, Cancion arr[], int max_capac
         cancion.artista = malloc(100);
         cancion.album = malloc(100);
         cancion.genero = malloc(50);
+        int consumidos = 0;
 
         if (cancion.nombre == NULL || cancion.artista == NULL || cancion.album == NULL || cancion.genero == NULL)
         {
@@ -87,7 +88,7 @@ int Cargar_Catalogo_CSV(const char* nombre_archivo, Cancion arr[], int max_capac
             break;
         }
 
-        int resultado = sscanf(linea, "%d,%99[^,],%99[^,],%99[^,],%49[^,],%d,%d,%d",
+        int resultado = sscanf(linea, "%d,%99[^,],%99[^,],%99[^,],%49[^,],%d,%d,%d%n",
             &cancion.id,
             cancion.nombre,
             cancion.artista,
@@ -95,9 +96,12 @@ int Cargar_Catalogo_CSV(const char* nombre_archivo, Cancion arr[], int max_capac
             cancion.genero,
             &cancion.duracion_seg,
             &cancion.anho,
-            &cancion.n_reproducciones);
+            &cancion.n_reproducciones,
+            &consumidos);
 
-        if (resultado == 8 && Cancion_Es_Valida(&cancion))
+        int sin_campos_de_mas = (linea[consumidos + strspn(linea + consumidos, " \t\r\n")] == '\0');
+
+        if (resultado == 8 && sin_campos_de_mas && Cancion_Es_Valida(&cancion))
         {
             arr[cantidad] = cancion;
             cantidad++;
@@ -151,12 +155,13 @@ const char* Seleccionar_Archivo_Catalogo()
     // Si existen ambos, dejamos que el usuario elija
     if (existe_base && existe_actualizado)
     {
-        printf("\n\t==================================================\n");
-        printf("\t   Se detectaron dos catalogos disponibles:\n");
-        printf("\t   [1] Catalogo Base original ('%s')\n", ARCHIVO_CATALOGO);
-        printf("\t   [2] Catalogo Actualizado ('%s')\n", ARCHIVO_EXPORTADO);
-        printf("\t==================================================\n");
-        printf("\t¿Cual catalogo desea cargar? (1 o 2): ");
+        printf("\t" CIAN_NEON "◆" ROSA_CHICLE "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" CIAN_NEON "◆" RESET "\n");
+        Print_Opcion(-1, "Se detectaron 2 catalogos disponibles");
+        printf("\t\t" CIAN_NEON"["RESET ROSA_CHICLE"1"RESET CIAN_NEON"] "RESET "Catalogo Base original " VERDE"('%s')\n"RESET, ARCHIVO_CATALOGO);
+        printf("\t\t" CIAN_NEON"["RESET ROSA_CHICLE"2"RESET CIAN_NEON"] "RESET "Catalogo Actualizado " VERDE"('%s')\n\n"RESET, ARCHIVO_EXPORTADO);
+        printf("\t" CIAN_NEON "◆" ROSA_CHICLE "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" CIAN_NEON "◆" RESET "\n\n");
+        Print_Opcion(-1, "¿Cual catalogo desea cargar? (1 o 2): ");
+        Print_Prompt(1);
         
         int opcion = Escoger_Opcion_Menu();
         if(opcion == 1) return ARCHIVO_CATALOGO;
@@ -171,7 +176,7 @@ const char* Seleccionar_Archivo_Catalogo()
 
 int Generar_Catalogo_Inicial(Cancion arr[])
 {
-    printf("\n\t[Generando catalogo nuevo por primera vez...]\n");
+    printf(ROSA_CHICLE"Generando Catalogo por Primera vez...\n"RESET);
     int cantidad = Pedir_cantidad_de_Canciones();
     
     Crear_Canciones(arr, cantidad);
@@ -179,7 +184,7 @@ int Generar_Catalogo_Inicial(Cancion arr[])
     if (Guardar_Catalogo_CSV(ARCHIVO_CATALOGO, arr, cantidad))
     {
         Print_Animacion();
-        printf("\t" VERDE "[Catalogo generado y guardado exitosamente en '%s']\n" RESET, ARCHIVO_CATALOGO);
+        printf("\t" VERDE "[Catalogo generado y guardado exitosamente en "RESET ROSA_CHICLE"'%s']\n" RESET, ARCHIVO_CATALOGO);
         sleep(2);
         return cantidad;
     }

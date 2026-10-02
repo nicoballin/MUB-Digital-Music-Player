@@ -19,19 +19,64 @@
 #include <string.h>
 #include "codes_mub.h"
 
-
-void Crear_Canciones(Cancion arr[],int cantidad_de_canciones);
 /**
- * @brief 
+ * @brief Funcion para crear canciones
  * 
- * @return int , Numero generado en segundos
+ * @param arr Es el arrgwelo de canciones
+ * @param cantidad_de_canciones Es la cantida de canciones del arreglo
+ */
+void Crear_Canciones(Cancion arr[],int cantidad_de_canciones);
+
+/**
+ * @brief Funcion para generar la duracin de una cancion en segun dos y de manera aleatoria
+ * 
+ * @return Numero generado en segundos (int)
  */
 int Generar_Duracion_Seg();
+
+/**
+ * @brief Funcion poara generar de manea aleatoria el anho dela cancion segun su genero
+ * 
+ * @param gnro Es el genero de la cancion
+ * @return Anho generado de manera aleatoria (int)
+ */
 int Generar_Anho_Cancion(char* gnro);
+
+/**
+ * @brief Fuuncion que gneera de manera alaeatoria el numero de reproducciones de una cancion
+ * 
+ * @return Numero de reproducciones entre 10 a 67000
+ */
 int Generar_N_Reproducciones();
+
+/**
+ * @brief Funcion qe generqaa eltitulo dentro de las opciones disponibes
+ * 
+ * @return Retorna el titulo generado para la cancion
+ */
 char* Generar_Titulo();
+
+/**
+ * @brief Funcion que genera de manera aleatoria la artista segun las opciones disponibles
+ * 
+ * @return El nombre generado dela artista
+ */
 char* Generar_Artista();
+
+/**
+ * @brief Funcion que genera de manera aleatoria el nombre el album segun las opciones disponibles 
+ * 
+ * @param album_existentes es una rregl ode albumes con nombres ya existentes
+ * @param cantidad_albumes Son la cantidad de albumes ya creados
+ * @return Devuelve el nombre del album para una cancion especifica
+ */
 char* Generar_Album(char* album_existentes[], int cantidad_albumes);
+
+/**
+ * @brief Funcion que genera de manera aleatoriael genero de una cancion dentro de las opciones disponibles
+ * 
+ * @return Retorna el genero seleccionado para dicha cancion
+ */
 char* Generar_Genero();
 
 #endif

@@ -2,9 +2,7 @@
 #include "codes_mub.h"
 
 
-/** @brief Imprime un titulo con marco estilo Y2K. 
- * @param titulo Es el string del titulo en "".
-*/
+
 void Print_Titulo(const char* titulo)
 {
     printf("\n");
@@ -13,12 +11,6 @@ void Print_Titulo(const char* titulo)
     printf("\t" CIAN_NEON "◆" ROSA_CHICLE "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" CIAN_NEON "◆" RESET "\n");
 }
 
-/**
- * @brief Imprime de manera estetica una opcion en el menu, con laf orma [numero] "Texto".
- * 
- * @param numero es el numero que lleva la opcion (si es -1 no imprime la casilla)
- * @param texto Es lo que dice tal opcion
- */
 void Print_Opcion(int numero, const char* texto)
 {
     if(numero == -1) printf("\t" CIAN_NEON "%s" RESET "\n", texto);
@@ -26,32 +18,42 @@ void Print_Opcion(int numero, const char* texto)
     printf("\t" CIAN_NEON "[" NEGRITA ROSA_CHICLE "%d" RESET CIAN_NEON "]" RESET " " PLATA "%s" RESET "\n", numero, texto);
 }
 
-/** @brief Imprime el prompt para ingresar una opcion. */
-void Print_Prompt()
+void Print_Prompt(int num)
 {
-    printf("\n" LILA "  ➤ " PLATA "Ingrese la opción que desea escoger" ROSA_CHICLE " : " RESET);
+    if(num == 0)
+        printf("\n" LILA "  ➤ " RESET);
+    else
+        printf("\n" LILA "  ➤ " PLATA "Ingrese la opcion que desea escoger" ROSA_CHICLE " : " RESET);
 }
 
-
-//funciones
-/**
- * @brief Imprime el menu inicial*/
 void Print_Menu_Inicial() //Funcion para imprimir el menu
 {
     Limpiar_Pantalla();
     Print_Titulo("M U B  ·  Digital Player Music");
     printf("\n");
+    //Bloque 1: Todo lo que es Catalogo
+    Print_Opcion(-1, "--- CATALOGO ---");
     Print_Opcion(1, "Lista de Canciones");
-    Print_Opcion(2, "Menu de Lista de Reproduccion");
+    Print_Opcion(2, "Buscar una Cancion");
     Print_Opcion(3, "Ordenar Canciones");
-    Print_Opcion(4, "Reproducir Canciones");
-    Print_Opcion(5, "Exportar Catalogo Actualizado");
-    Print_Opcion(6, "Listar artistas/generos, TOP N canciones");
+    Print_Opcion(4, "Listar Canciones por otras categorias");
+    printf("\n");
+
+    // Bloque 2: Reproduccion y playlist
+    Print_Opcion(-1, "--- REPRODUCCION Y FILA ---");
+    Print_Opcion(5, "Menu de Lista de Reproduccion");
+    Print_Opcion(6, "Reproducir Canciones e Historial");
+    printf("\n");
+
+    // Bloque 3: Utilidades y salida
+    Print_Opcion(-1, "--- SISTEMA ---");
+    Print_Opcion(7, "Exportar Catalogo Actualizado");
     Print_Opcion(0, "Salir :(");
-    Print_Prompt();
+    printf("\t" CIAN_NEON "◆" ROSA_CHICLE "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" CIAN_NEON "◆" RESET "\n");
+
+    Print_Prompt(1);
 }
 
-/*** @brief Imprime el Menu de criterios de ordenamiento*/
 void Print_Menu_Criterios_Ordenamiento()
 {
     Limpiar_Pantalla();
@@ -66,28 +68,55 @@ void Print_Menu_Criterios_Ordenamiento()
     Print_Opcion(7, "Por Anho");
     Print_Opcion(8, "Por Numero de Reproducciones");
     Print_Opcion(0, "Volver al Menu Inicial");
-    Print_Prompt();
+    Print_Prompt(1);
 }
 
-/**
- * @brief Imprime las opciones de ordenamiento que existen
- * 
- */
+void Print_Playlist(Cancion arr[], int cantidad_de_canciones)
+{
+    printf("\n\t%-7s | %-18s | %-14s | %-24s | %s  | %-8s |\n", "ID", "Titulo", "Artista", "Album", "Duracion", "Reprod.");
+    printf("\t----------------------------------------------------------------------------------------------------------------\n");
+    for(int i = 0 ; i < cantidad_de_canciones; i++)
+    {
+        if (i == 0 && arr[i].id == 0)
+        {
+            printf(ROJO_NEON"\t Lista de Reproduccion vacia! \n"RESET);
+            return;
+        }
+        else if(arr[i].id == 0)
+            continue;
+        printf("\tID: %-3d | %-18s | %-14s | %-24s | %2dm %02ds | %-8d |\n",
+        arr[i].id,
+        arr[i].nombre, 
+        arr[i].artista,
+        arr[i].album,
+        arr[i].duracion_seg/60, arr[i].duracion_seg%60, 
+        arr[i].n_reproducciones);
+    }
+    sleep(5); 
+}
+
+void Print_Menu_Playlsit()
+{
+    Limpiar_Pantalla();
+    Print_Titulo("Menu de la Lista de Reproduccion");
+    Print_Opcion(1, "Ver Lista de Canciones");
+    Print_Opcion(2, "Ver Lista de Reproduccion");
+    Print_Opcion(3, "Anhadir una cancion a la Lista de Reproduccion");
+    Print_Opcion(4, "Quitar Canciones");
+    Print_Opcion(0, "Volver al Menu Principal");
+    printf("\n\n");
+    printf("Ingrese la opcion que desea escoger : ");
+}
+
 void Print_Opciones_Orden()
 {
     printf("\n\t" LILA "¿De que manera desea ordenar las canciones?" RESET "\n");
     Print_Opcion(1, "Ascendente (Menor a Mayor / A-Z)");
     Print_Opcion(2, "Descendente (Mayor a menor / Z-A)");
     Print_Opcion(0, "Volver al menu de Opciones");
-    Print_Prompt();
+    Print_Prompt(1);
 }
 
-/**
- * @brief Imprime la lista de canciones
- * 
- * @param arr Es el repertorio de toda la musica
- * @param cantidad_de_canciones Es la cantidad de cancione sen el repertorio
- */
 void Print_Lista_Canciones(Cancion arr[], int cantidad_de_canciones)
 {
     printf("\n\t" NEGRITA CIAN_NEON "%-7s | %-18s | %-14s | %-24s | %-10s | %s | %-4s | %-8s |" RESET "\n",
@@ -107,15 +136,8 @@ void Print_Lista_Canciones(Cancion arr[], int cantidad_de_canciones)
                arr[i].anho,
                arr[i].n_reproducciones);
     }
-    printf("\n\t" GRIS "Presione " ROSA_CHICLE "ENTER" GRIS " para volver al menu..." RESET);
-    while (getchar() != '\n'); // Limpia buffer anterior
-    getchar();                 // Espera ENTER del usuario
 }
 
-/**
- * @brief imprime el menu para quitar una cancion de la playlist
- * 
- */
 void Print_Menu_Quitar_Playlist()
 {
     Limpiar_Pantalla();
@@ -126,13 +148,9 @@ void Print_Menu_Quitar_Playlist()
     Print_Opcion(3, "Quitar por Posicion");
     Print_Opcion(4, "Vaciar toda la fila");
     Print_Opcion(0, "Volver al Menu de Lista de Reproduccion");
-    Print_Prompt();
+    Print_Prompt(1);
 }
 
-/**
- * @brief Imprime el menu e reproduccion e historial
- * 
- */
 void Print_Menu_Reproduccion()
 {
     Limpiar_Pantalla();
@@ -141,43 +159,33 @@ void Print_Menu_Reproduccion()
     Print_Opcion(1, "Reproducir Cancion (primera de la fila)");
     Print_Opcion(2, "Ver Historial de Reproduccion");
     Print_Opcion(0, "Volver al Menu Principal");
-    Print_Prompt();
+    Print_Prompt(1);
 }
 
-/**
- * @brief Imprime el menu de opciones para anhadir una cancion a la playlist
- * 
- */
-void Print_Menu_anhadir_Playlsit()
+void Print_Menu_Anhadir_Playlist()
 {
-    sleep(2);
     Limpiar_Pantalla();
     Print_Titulo("Anhadir Canciones a la Fila");
     printf("\n");
     Print_Opcion(1, "Ver Lista de Canciones");
     Print_Opcion(2, "Anhadir por ID");
-    Print_Opcion(3, "Anhadir por Nombre");
+    Print_Opcion(3, "Anhadir por Nombre/Titulo");
+    Print_Opcion(4, "Anhadir por Artista");
     Print_Opcion(0, "Volver a Menu de Lista de Reproduccion");
-    Print_Prompt();
+    Print_Prompt(1);
 }
 
-/**
- * @brief Funcion que usa un getchar par imprimir Prersione Enter para continuar
- * 
- */
-void Esperar_enter()
+void Esperar_Enter()
 {
-    printf("\n\t" GRIS "Presione " ROSA_CHICLE "ENTER" GRIS " para volver al menu..." RESET);
-    while (getchar() != '\n'); // Limpia buffer anterior
-    getchar();                 // Espera ENTER del usuario
-    return;
+    int c;
+    printf("\n\t" GRIS "Presione " ROSA_CHICLE "ENTER" GRIS " para volver..." RESET);
+
+    while ((c = getchar()) != '\n' && c != EOF);   // limpia lo pendiente
+    if (c == EOF) return;                          // entrada cerrada (Ctrl+D)
+
+    while ((c = getchar()) != '\n' && c != EOF);   // espera ENTER
 }
 
-/**
- * @brief Funcion para animar mientras se reproducce una cancion
- * 
- * @param duracion es la duracion de es acancion on cancion_actual.duracion
- */
 void Animacion_Reproduccion(int duracion)
 { 
     int ancho_barra = 40; 
@@ -219,4 +227,25 @@ void Animacion_Reproduccion(int duracion)
     }
 
     printf("\n"); 
+}
+
+void Print_Animacion_Custom(const char* mensaje)
+{
+    //Caracteres animacion
+    int giros = 20;
+    char simbolos[] = {'/', '-', '\\', '|'};
+    
+    // Gira la barrita n veces
+    for (int i = 0; i < giros; i++)
+    {
+        // El '\r' regresa al inicio de la linea para sobrescribir el texto anterior
+        printf("\r\t%s %c", mensaje, simbolos[i % 4]);
+        fflush(stdout);
+        
+        // Pausa de 100 milisegundos para que se alcance a ver el giro
+        usleep(100000); 
+    }
+    sleep(0.1);
+    //Limpiar terminal
+    printf(VERDE"\r\t¡Listo!                                            \n"RESET);
 }

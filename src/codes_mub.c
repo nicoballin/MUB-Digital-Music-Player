@@ -3,12 +3,8 @@
 #include "creacion.h"
 #include "print.h"
 
-/**
- * @brief Funcion para pedir un numero entero de canciones a generar
- * 
- * @return Retorna la cantidad de cancioens que se van a generar
- */
-int Pedir_cantidad_de_Canciones() //Funcion que pide mediante scanf un numero entero de canciones a generar
+
+int Pedir_cantidad_de_Canciones()
 {
     
     Print_Titulo("- Creador de Canciones -");
@@ -23,34 +19,22 @@ int Pedir_cantidad_de_Canciones() //Funcion que pide mediante scanf un numero en
     return cantidad_de_canciones;
 }
 
-/**
- * @brief Funcion que se utiliza para leer la oopcion ingresada por el usuario
- * 
- * @return Devuelve un entero que corresponde al aopcion ingresada
- */
-int Escoger_Opcion_Menu() //Funcion utilizadap ara escojer una opcion en el menu
+int Escoger_Opcion_Menu()
 {
     int opcion = -1;
-    
-    // while scanf no logre leer un numero entero
-    while (scanf("%d", &opcion) != 1)
+    int lectura;
+    while ((lectura = scanf("%d", &opcion)) != 1)
     {
+        if (lectura == EOF) exit(0);   // entrada cerrada: terminar
         printf(CIAN_NEON"\tPor favor, ingrese solo numeros: "RESET);
-        
-        // limpia lo de las letras
-        while (getchar() != '\n');
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
     }
 
     printf("\n\n");
     return opcion;
 }
 
-/**
- * @brief Funcin para liberar memoria de las canciones
- * 
- * @param arr 
- * @param cantidad_de_cancioens 
- */
 void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_cancioens)
 {
     for(int i = 0; i < cantidad_de_cancioens; i++)
@@ -60,53 +44,6 @@ void Liberar_Memoria_Canciones(Cancion arr[], int cantidad_de_cancioens)
         free(arr[i].album);
         free(arr[i].genero);
     }
-}
-
-/**
- * @brief Funcion que imprime la playlist de canciones
- * 
- * @param arr Es el arrgelo de la playlist
- * @param cantidad_de_canciones es la cnatidad de canciones en playlist
- */
-void Print_Playlist(Cancion arr[], int cantidad_de_canciones)
-{
-    printf("\n\t%-7s | %-18s | %-14s | %-24s | %s  | %-8s |\n", "ID", "Titulo", "Artista", "Album", "Duracion", "Reprod.");
-    printf("\t----------------------------------------------------------------------------------------------------------------\n");
-    for(int i = 0 ; i < cantidad_de_canciones; i++)
-    {
-        if (i == 0 && arr[i].id == 0)
-        {
-            printf(ROJO_NEON"\t Lista de Reproduccion vacia! \n"RESET);
-            return;
-        }
-        else if(arr[i].id == 0)
-            continue;
-        printf("\tID: %-3d | %-18s | %-14s | %-24s | %2dm %02ds | %-8d |\n",
-        arr[i].id,
-        arr[i].nombre, 
-        arr[i].artista,
-        arr[i].album,
-        arr[i].duracion_seg/60, arr[i].duracion_seg%60, 
-        arr[i].n_reproducciones);
-    }
-    sleep(5); 
-}
-
-/**
- * @brief Funciom que imprime el menu con lol que se puede hacer con las playlist
- * 
- */
-void Print_Menu_Playlsit()
-{
-    Limpiar_Pantalla();
-    Print_Titulo("Menu de la Lista de Reproduccion");
-    Print_Opcion(1, "Ver Lista de Canciones");
-    Print_Opcion(2, "Ver Lista de Reproduccion");
-    Print_Opcion(3, "Anhadir uan cancion a la Lista de Reproduccion");
-    Print_Opcion(4, "Quitar Canciones");
-    Print_Opcion(0, "Volver al Menu Principal");
-    printf("\n\n");
-    printf("Ingrese la opción que desea escoger : ");
 }
 
 void Inicializar_Playlist(Cancion arr[], int cantidad_de_canciones)
@@ -152,16 +89,19 @@ void Anhadir_Cancion_ID_Playlist(Cancion canciones[], Cancion Playlist[], int ca
         }
     }
 
-    for (int j = 0; j < cantidad_de_canciones; j++)
+    if (Playlist[cantidad_de_canciones - 1].id != 0)
     {
-        if (Playlist[j].id == 0)
-        {
-            Playlist[j] = canciones[indice_encontrado];
-            printf(VERDE"Cancion agregada correctamente\n"RESET);
-            return;
-        }
+        printf(ROJO"La fila esta llena\n"RESET);
+        return;
     }
-    printf(ROJO"La fila esta llena\n"RESET);
+
+    // Se desplaza todo una posicion a la derecha (desde el final para no pisar datos)
+    for (int i = cantidad_de_canciones - 1; i > 0; i--)
+        Playlist[i] = Playlist[i - 1];
+
+    // La cancion nueva queda al comienzo de la fila
+    Playlist[0] = canciones[indice_encontrado];
+    printf(VERDE"Cancion agregada correctamente\n"RESET);
 }
 
 void Aumentar_Reproduccion(Cancion Canciones[],int cantidad_de_canciones,int id_cancion)
@@ -200,18 +140,19 @@ void Reproducir_Cancion(Cancion canciones[],Cancion playlist[], Cancion historia
     {
         printf(ROJO"\tLa fila de reproduccion esta vacia! No se puede reproducir nada\n"RESET);
         sleep(2);
-        return;
+        return ;
     }
     Cancion cancion_actual = playlist[0];
-
-    printf("\n\t Reproduciendo ahora:\n");
+    cancion_actual.n_reproducciones++;
+    printf(ROSA_CHICLE"\n\t Reproduciendo ahora:\n"RESET);
     printf("\t %s - %s [%s]\n", cancion_actual.nombre, cancion_actual.artista, cancion_actual.album);
-
     Aumentar_Reproduccion(canciones,cantidad_de_canciones,cancion_actual.id);
     Agregar_Cancion_Historial(historial,cancion_actual);
     Quitar_Primera_Cancion_Playlist(playlist,cantidad_de_canciones);
 
     Animacion_Reproduccion(cancion_actual.duracion_seg);
+
+    return;
 }
 
 void Print_Historial(Cancion historial[])
@@ -222,7 +163,7 @@ void Print_Historial(Cancion historial[])
     {
         if (i == 0 && historial[i].id == 0)
         {
-            printf("\t Aun no se ha reproducido ninguna cancion! \n");
+            printf(ROSA_CHICLE"\t Aun no se ha reproducido ninguna cancion! \n"RESET);
             return;
         }
         else if (historial[i].id == 0)
@@ -244,7 +185,7 @@ void Quitar_Cancion_ID_Playlist(Cancion playlist[], int cantidad_de_canciones, i
 
     if( id_cancion <= 0 )
     {
-        printf("\tLa id debe ser un numero mayor a 0");
+        printf(ROJO"\tLa id debe ser un numero mayor a 0"RESET);
         return;
     }
 
@@ -259,7 +200,7 @@ void Quitar_Cancion_ID_Playlist(Cancion playlist[], int cantidad_de_canciones, i
 
     if(posicion == -1)
     {
-        printf("\t La cancion con ID %d no esta en la playlist\n", id_cancion);
+        printf(ROJO_NEON"\t La cancion con ID %d no esta en la playlist\n"RESET, id_cancion);
         return;
     }
 
@@ -267,7 +208,7 @@ void Quitar_Cancion_ID_Playlist(Cancion playlist[], int cantidad_de_canciones, i
         playlist[i] = playlist[i+1];
     playlist[cantidad_de_canciones-1].id  = 0;
 
-    printf("\t Cancion con ID %d quitada de la fila\n", id_cancion);
+    printf(VERDE"\t Cancion con ID %d quitada de la fila\n"RESET, id_cancion);
     return;
 }
 
@@ -282,20 +223,19 @@ int Contar_Canciones_Playlist(Cancion playlist[], int cantidad_de_canciones)
     return total;
 }
 
-
 void Quitar_Cancion_Posicion_Playlist(Cancion playlist[], int cantidad_de_canciones, int posicion)
 {
     int total = Contar_Canciones_Playlist(playlist, cantidad_de_canciones);
 
     if (total == 0)
     {
-        printf("\tLa fila de reproduccion esta vacia\n");
+        printf(ROSA_CHICLE  "\tLa fila de reproduccion esta vacia\n"RESET);
         return;
     }
 
     if (posicion < 1 || posicion > total)
     {
-        printf("\tPosicion invalida. Debe estar entre 1 y %d\n", total);
+        printf(ROJO"\tPosicion invalida. Debe estar entre 1 y %d\n"RESET, total);
         return;
     }
 
@@ -308,31 +248,21 @@ void Quitar_Cancion_Posicion_Playlist(Cancion playlist[], int cantidad_de_cancio
     }
     playlist[cantidad_de_canciones - 1].id = 0;
 
-    printf("\tCancion en la posicion %d quitada de la fila\n", posicion);
+    printf(VERDE"\tCancion en la posicion %d quitada de la fila\n"RESET, posicion);
 }
 
-/**
- * @brief Funcion qeu vacia la playlsit
- * 
- * @param playlist Es el arrelgo de la playlist
- * @param cantidad_de_canciones Es la cantidad de canciones
- */
 void Vaciar_Playlist(Cancion playlist[], int cantidad_de_canciones)
 {
     if (Contar_Canciones_Playlist(playlist, cantidad_de_canciones) == 0)
     {
-        printf("\tLa fila de reproduccion ya estaba vacia\n");
+        printf(ROJO_NEON"\tLa fila de reproduccion ya estaba vacia\n"RESET);
         return;
     }
 
     Inicializar_Playlist(playlist, cantidad_de_canciones);
-    printf("\tFila de reproduccion vaciada correctamente\n");
+    printf(VERDE"\tFila de reproduccion vaciada correctamente\n"RESET);
 }
 
-/**
- * @brief Funcion de animacion de Cargando...
- * 
- */
 void Print_Animacion() 
 {
     //Caracteres animacion
@@ -342,8 +272,8 @@ void Print_Animacion()
     // Gira la barrita 20 veces
     for (int i = 0; i < giros; i++)
     {
-        // El '\r' regresa al inicio de la línea para sobrescribir el texto anterior
-        printf("\r\tCargando %c", simbolos[i % 4]);
+        // El '\r' regresa al inicio de la linea para sobrescribir el texto anterior
+        printf(ROSA_CHICLE"\r\tCargando %c"RESET, simbolos[i % 4]);
         fflush(stdout);
         
         // Pausa de 100 milisegundos para que se alcance a ver el giro
@@ -351,24 +281,14 @@ void Print_Animacion()
     }
     sleep(0.1);
     //Limpiar terminal
-    printf("\r\t¡Listo!         \n");
+    printf(VERDE"\r\t¡Listo!                         \n"RESET);
 }
 
-/**
- * @brief Funcion para limpiar la pantalla
- * 
- */
 void Limpiar_Pantalla()
 {
     printf("\033[H\033[J"RESET); // Codigo VT100/ANSI para limpiar pantalla jeje
 }
 
-/**
- * @brief Funcion que imprime todosl os artistas disponibles en el catalogo 
- * 
- * @param arr Es el arreglo de canciones (repertorio entero)
- * @param n Es la cantidad de canciones en el repertorio
- */
 void Listar_Artistas_Disponibles(Cancion arr[], int n)
 {
     printf("\n\t" CIAN "=== ARTISTAS DISPONIBLES EN EL CATALOGO ===" RESET "\n");
@@ -396,12 +316,6 @@ void Listar_Artistas_Disponibles(Cancion arr[], int n)
     printf("\tTotal de artistas unicos: %d\n\n", total_unicos);
 }
 
-/**
- * @brief Funcion qeue imprime una tabla con los generos disponiblesen el repertorio de musica
- * 
-* @param arr Es el arreglo de canciones (repertorio entero)
- * @param n Es la cantidad de canciones en el repertorio
- */
 void Resumen_Canciones_Por_Genero(Cancion arr[], int n)
 {
     const char* generos_conocidos[] = {"Rock", "Pop", "Hip Hop", "Jazz", "Regueton", "Funk", "Trap", "Dubstep"};
@@ -429,13 +343,6 @@ void Resumen_Canciones_Por_Genero(Cancion arr[], int n)
     printf("\t----------------------------------------\n");
 }
 
-/**
- * @brief Funcion que lista las cancioens de un genrro especifico
- * 
- * @param arr Es el arreglo de canciones (repertorio entero)
- * @param n Es la cantidad de canciones en el repertorio
- * @param genero_buscado Ese el genero a lsitar
- */
 void Listar_Canciones_Por_Genero(Cancion arr[], int n, const char* genero_buscado)
 {
     int encontradas = 0;
@@ -461,12 +368,6 @@ void Listar_Canciones_Por_Genero(Cancion arr[], int n, const char* genero_buscad
     }
 }
 
-/**
- * @brief Funcion que limpia el buffer para leer texto
- * 
- * @param buffer 
- * @param max 
- */
 void Leer_Texto(char* buffer, int max)
 {
     

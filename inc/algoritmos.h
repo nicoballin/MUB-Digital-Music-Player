@@ -66,6 +66,24 @@ int Comparar_Canciones_Sort(Cancion a, Cancion b, Tipo_Criterio criterio, Orden 
  */
 void Quick_Sort(Cancion catalogo[], int low, int high, Tipo_Criterio criterio, Orden orden);
 
+/**
+ * @brief Funcion generar y mostrar el Top N canciones
+ * 
+ * @param catalogo Es el catalogo de canciones completo
+ * @param n Es el numero total de canciones
+ * @param top es el numero de canciones del top
+ */
 void Top_N_Canciones(Cancion catalogo[], int n, int top);
+
+/**
+ * @brief Busca y muestra todas las canciones adyacentes que coinciden con el objetivo tras una busqueda binaria.
+ * 
+ * @param catalogo Arreglo de canciones.
+ * @param cantidad_de_canciones Cantidad total de canciones.
+ * @param pos Posicion inicial encontrada por la busqueda binaria (-1 si no existe).
+ * @param target Objeto Cancion con el valor buscado.
+ * @param criterio Criterio de busqueda aplicado.
+ */
+void Buscar_Y_Mostrar_Coincidencias(Cancion catalogo[], int cantidad_de_canciones, int pos, Cancion target, Tipo_Criterio criterio);
 
 #endif

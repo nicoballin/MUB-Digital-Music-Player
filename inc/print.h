@@ -50,26 +50,103 @@
 #define TAG_AVISO  NEGRITA AMARILLO_NEON "[!] " RESET
 
 
-
+/** @brief Imprime un titulo con marco estilo Y2K. 
+ * @param titulo Es el string del titulo en "".
+*/
 void Print_Titulo(const char* titulo);
+
+/**
+ * @brief Imprime de manera estetica una opcion en el menu, con laf orma [numero] "Texto".
+ * 
+ * @param numero es el numero que lleva la opcion (si es -1 no imprime la casilla)
+ * @param texto Es lo que dice tal opcion
+ */
 void Print_Opcion(int numero, const char* texto);
-void Print_Prompt();
 
+/**
+ * @brief Imprime el prompt para ingresar una opcion. 
+ * 
+ * @param num 1 para ponerm ensaje y 0 para solo mostrar >
+ */
+void Print_Prompt(int num);
 
+/**
+ * @brief Imprime el menu inicial*/
 void Print_Menu_Inicial();
+
+/*** @brief Imprime el Menu de criterios de ordenamiento*/
 void Print_Menu_Criterios_Ordenamiento();
+
+/**
+ * @brief Imprime las opciones de ordenamiento que existen
+ * 
+ */
 void Print_Opciones_Orden();
+/**
+ * @brief Imprime el menu de la playlist
+ * 
+ */
 void Print_Menu_Playlsit();
+
+/**
+ * @brief Imprime la playlist en pantalla
+ * 
+ * @param arr Es el arrelgo de la playlist
+ * @param cantidad_de_canciones Es la cantidad e canciones en playlist
+ */
 void Print_Playlist(Cancion arr[], int cantidad_de_canciones);
-void Print_Menu_anhadir_Playlsit();
+
+/**
+ * @brief Imprime el menu de opciones para anhadir una cancion a la playlist
+ * 
+ */
+void Print_Menu_Anhadir_Playlist();
+
+/**
+ * @brief Imprime el menu e reproduccion e historial
+ * 
+ */
 void Print_Menu_Reproduccion();
+/**
+ * @brief Imprime el arreglo Historial de canciones
+ * 
+ * @param historial Es el arreglo de canciones dentor del historial
+ */
 void Print_Historial(Cancion historial[]);
+
+/**
+ * @brief imprime el menu para quitar una cancion de la playlist
+ * 
+ */
 void Print_Menu_Quitar_Playlist();
+
+/**
+ * @brief Imprime la lista de canciones
+ * 
+ * @param arr Es el repertorio de toda la musica
+ * @param cantidad_de_canciones Es la cantidad de cancione sen el repertorio
+ */
 void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones);
 
+/**
+ * @brief Funcion que usa un getchar par imprimir Prersione Enter para continuar
+ * 
+ */
 void Esperar_Enter();
+
+/**
+ * @brief Funcion para animar mientras se reproducce una cancion
+ * 
+ * @param duracion es la duracion de es acancion on cancion_actual.duracion
+ */
 void Animacion_Reproduccion(int duracion);
 
+/**
+ * @brief Funcion para poner mensaje animado custom
+ * 
+ * @param mensaje Es el mensaje que se quiere poner (eJ: cargando..)
+ */
+void Print_Animacion_Custom(const char* mensaje);
 
 
 #endif
