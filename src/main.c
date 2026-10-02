@@ -314,10 +314,16 @@ int main()
             if (op_genero == 1)
             {
                 Listar_Artistas_Disponibles(Canciones, cantidad_de_canciones);
+                printf("\n\t" GRIS "Presione " ROSA_CHICLE "ENTER" GRIS " para volver al menu..." RESET);
+                while (getchar() != '\n'); // Limpia buffer anterior
+                getchar();                 // Espera ENTER del usuario
             }
             else if (op_genero == 2)
             {
                 Resumen_Canciones_Por_Genero(Canciones, cantidad_de_canciones);
+                printf("\n\t" GRIS "Presione " ROSA_CHICLE "ENTER" GRIS " para volver al menu..." RESET);
+                while (getchar() != '\n'); // Limpia buffer anterior
+                getchar();                 // Espera ENTER del usuario
             }
             else if (op_genero == 3)
             {
@@ -325,12 +331,18 @@ int main()
                 printf("Ingrese el genero musical (ej: Rock, Pop, Jazz): ");
                 Leer_Texto(genero, 50);
                 Listar_Canciones_Por_Genero(Canciones, cantidad_de_canciones, genero);
+                printf("\n\t" GRIS "Presione " ROSA_CHICLE "ENTER" GRIS " para volver al menu..." RESET);
+                while (getchar() != '\n'); // Limpia buffer anterior
+                getchar();                 // Espera ENTER del usuario
             }
             else if(op_genero == 4)
             {
                 printf("\tIngrese el valor de N para el ranking: ");
                 int top_n = Escoger_Opcion_Menu();
                 Top_N_Canciones(Canciones, cantidad_de_canciones, top_n);
+                printf("\n\t" GRIS "Presione " ROSA_CHICLE "ENTER" GRIS " para volver al menu..." RESET);
+                while (getchar() != '\n'); // Limpia buffer anterior
+                getchar();                 // Espera ENTER del usuario
             }
             break;
         }

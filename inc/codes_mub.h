@@ -123,4 +123,6 @@ void Listar_Canciones_Por_Genero(Cancion arr[], int n, const char* genero_buscad
 
 void Leer_Texto(char* buffer, int max);
 
+void Esperar_Enter();
+
 #endif

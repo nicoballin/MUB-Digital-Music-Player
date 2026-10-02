@@ -67,6 +67,10 @@ void Print_Historial(Cancion historial[]);
 void Print_Menu_Quitar_Playlist();
 void Print_Lista_Canciones(Cancion arr[],int cantidad_de_canciones);
 
+void Esperar_Enter();
+void Animacion_Reproduccion(int duracion);
+
+
 
 #endif
 
