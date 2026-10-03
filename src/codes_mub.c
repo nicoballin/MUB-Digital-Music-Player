@@ -291,13 +291,13 @@ void Limpiar_Pantalla()
 
 void Listar_Artistas_Disponibles(Cancion arr[], int n)
 {
-    printf("\n\t" CIAN "=== ARTISTAS DISPONIBLES EN EL CATALOGO ===" RESET "\n");
+    printf("\n\t" CIAN "=== ARTISTAS DISPONIBLES Y SU CANCION MAS ESCUCHADA ===" RESET "\n");
     int total_unicos = 0;
 
     for (int i = 0; i < n; i++)
     {
         int ya_mostrado = 0;
-        // Comprobamos si este artista ya aparece antes en el arreglo de canciones
+        // Comprobamos si este artista ya aparece antes
         for (int j = 0; j < i; j++)
         {
             if (strcmp(arr[i].artista, arr[j].artista) == 0)
@@ -309,10 +309,26 @@ void Listar_Artistas_Disponibles(Cancion arr[], int n)
         if (!ya_mostrado)
         {
             total_unicos++;
-            printf("\t[%2d] %s\n", total_unicos, arr[i].artista);
+            
+            // Buscamos la cancion con mas reproducciones de este artista
+            Cancion mas_reproducida = arr[i];
+            for (int k = 0; k < n; k++)
+            {
+                if (strcmp(arr[k].artista, arr[i].artista) == 0)
+                {
+                    if (arr[k].n_reproducciones > mas_reproducida.n_reproducciones)
+                    {
+                        mas_reproducida = arr[k];
+                    }
+                }
+            }
+
+            printf("\t[%2d] Artista: %s\n", total_unicos, arr[i].artista);
+            printf("\t     -> Top: '%s' (%d reproducciones)\n", 
+                   mas_reproducida.nombre, mas_reproducida.n_reproducciones);
         }
     }
-    printf("\t--------------------------------------------\n");
+    printf("\t------------------------------------------------------------\n");
     printf("\tTotal de artistas unicos: %d\n\n", total_unicos);
 }
 
@@ -320,8 +336,11 @@ void Resumen_Canciones_Por_Genero(Cancion arr[], int n)
 {
     const char* generos_conocidos[] = {"Rock", "Pop", "Hip Hop", "Jazz", "Regueton", "Funk", "Trap", "Dubstep"};
     int total_generos = 8;
-    //arreglo de contadores para cada genero, tryhard
     int conteos[8] = {0};
+
+    // Estructura para guardar la cancion con mas reproducciones por cada genero conocido
+    Cancion top_genero[8];
+    int max_reprods[8] = {-1}; // Inicializamos con valores negativos
 
     for (int i = 0; i < n; i++)
     {
@@ -330,17 +349,31 @@ void Resumen_Canciones_Por_Genero(Cancion arr[], int n)
             if (strcasecmp(arr[i].genero, generos_conocidos[g]) == 0)
             {
                 conteos[g]++;
+                // Actualizamos si esta cancion tiene mas reproducciones que la anterior del genero
+                if (arr[i].n_reproducciones > max_reprods[g])
+                {
+                    max_reprods[g] = arr[i].n_reproducciones;
+                    top_genero[g] = arr[i];
+                }
                 break;
             }
         }
     }
 
-    printf("\n\t" AZUL "=== CANTIDAD DE CANCIONES POR GENERO ===" RESET "\n");
+    printf("\n\t" AZUL "=== RESUMEN Y CANCION TOP POR GENERO ===" RESET "\n");
     for (int g = 0; g < total_generos; g++)
     {
-        printf("\t%-12s: %4d canciones\n", generos_conocidos[g], conteos[g]);
+        if (conteos[g] > 0)
+        {
+            printf("\t%-10s | Cantidad: %4d | Top: %s (%d repr)\n", 
+                   generos_conocidos[g], conteos[g], top_genero[g].nombre, top_genero[g].n_reproducciones);
+        }
+        else
+        {
+            printf("\t%-10s | Cantidad:    0 | Sin canciones\n", generos_conocidos[g]);
+        }
     }
-    printf("\t----------------------------------------\n");
+    printf("\t--------------------------------------------------------\n");
 }
 
 void Listar_Canciones_Por_Genero(Cancion arr[], int n, const char* genero_buscado)
